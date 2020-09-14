@@ -1,0 +1,30 @@
+ <?php
+ $username = 'USERNAME';
+    $password = 'PASSWORD';
+    $destination = '8869843679'; //Multiple numbers can be entered, separated by a comma
+    $source    = 'MyCompany';
+    $text = 'This is our test message.';
+    $ref = 'abc123';
+        
+    $content =  'username='.rawurlencode($username).
+                '&password='.rawurlencode($password).
+                '&to='.rawurlencode($destination).
+                '&from='.rawurlencode($source).
+                '&message='.rawurlencode($text).
+                '&ref='.rawurlencode($ref);
+  
+    $smsbroadcast_response = sendSMS($content);
+    $response_lines = explode("\n", $smsbroadcast_response);
+    
+     foreach( $response_lines as $data_line){
+        $message_data = "";
+        $message_data = explode(':',$data_line);
+        if($message_data[0] == "OK"){
+            echo "The message to ".$message_data[1]." was successful, with reference ".$message_data[2]."\n";
+        }elseif( $message_data[0] == "BAD" ){
+            echo "The message to ".$message_data[1]." was NOT successful. Reason: ".$message_data[2]."\n";
+        }elseif( $message_data[0] == "ERROR" ){
+            echo "There was an error with this request. Reason: ".$message_data[1]."\n";
+        }
+     }
+	 ?>

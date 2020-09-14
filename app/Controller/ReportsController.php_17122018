@@ -1,0 +1,81 @@
+<?php 
+
+Class ReportsController extends AppController{
+	var $uses = array('Booking','Course','TransactionLog','Location') ;
+	var $components = array('Auth', 'Session', 'Email', 'RequestHandler');
+
+	function beforeFilter() {
+		parent::beforeFilter();
+        $this->Auth->allow('');
+    }
+	
+	function admin_reportListing(){
+		$this->layout="admin";
+		$booking = $this->TransactionLog->find('all', array('fields' => array('DISTINCT Course.id','Course.course_name')));
+		$price = $this->TransactionLog->find('all', array('fields' => array('DISTINCT Course.delegate_price')));
+		$payStatus = $this->TransactionLog->find('all', array('fields' => array('DISTINCT TransactionLog.status'),'conditions'=>array('TransactionLog.status !='=>'AuthCode: 376297')));
+		//pr($booking); die;
+		$location = $this->Location->find('all');
+		$getValue = array();
+        $getvalue = $_GET;
+		$filterval = array_filter($_GET);
+		$result = array();
+		foreach ($filterval as $key => $val) {
+            if ($key == "from_date") {
+                $result['transaction_datetime_txt >='] = $val;
+				
+            }
+			if ($key == "to_date") {
+               $result['transaction_datetime_txt <='] = $val;
+            }elseif ($key == "course_id") {
+                $result['course_id'] = $val;
+            }elseif ($key == "location_id") {
+                $result['Course.location_id'] = $val;
+            }elseif($key == "status"){
+				if($val=="Declined"){
+					$result['TransactionLog.status'] = "Declined";
+				}else{
+					 $result['TransactionLog.status'] = $val;
+				}
+            }elseif ($key == "delegate_price") {
+                $result['Course.delegate_price'] = $val;
+            }
+        }
+        if (!empty($filterval)) {
+            $conditions = $result;
+        } else {
+			$conditions = array('TransactionLog.status !=' =>'AuthCode: 376297');
+        }
+		$bookinglist = $this->paginate = array(
+			'conditions'=> $conditions,
+			'limit' => 10
+
+		);
+		$bookinglist =  $this->paginate('TransactionLog');
+		//pr($loc); die;
+		  $this->set(compact('bookinglist','booking','getvalue','date','location','price','payStatus'));
+	}
+	
+	/*  function admin_viewReport($id = NULL) {
+        $this->layout = "admin";
+		$date = $this->request->data['Report']['date']=$this->request->data['Report']['date'];
+		//pr($id); die;
+		if(!empty($date)){
+			$conditions = array('transaction_datetime_txt LIKE' => $date . "%");
+		}else{
+			$conditions = array('Course.id' => $id);
+		}
+		$this->paginate = array(
+
+			'conditions' => $conditions,
+			'limit' => 10
+
+		);
+		$BookingDetail =  $this->paginate('TransactionLog');
+        //pr($result); die();
+        $this->set(compact('BookingDetail'));
+
+    } */
+
+}
+?>

@@ -1,0 +1,139 @@
+<?php echo $this->Html->script('jquery.min.js');?>
+<script>
+    var SITEPATH = '<?php echo SITEPATH; ?>';
+    //alert(SITEPATH);
+</script>
+<?php $site = SITEPATH; 
+//echo $site; ?>
+
+<!-- Breadcrumb section -->
+<div class="site-breadcrumb">
+	<div class="container"> <a href="<?php echo $this->html->url(array('controller' => 'homes', 'action' => 'index'));?>"><i class="fa fa-home"></i> Home</a> <i class="fa fa-angle-right"></i> <span>Construction</span> </div>
+</div>
+<!-- Breadcrumb section end -->
+
+<section id="inner-headline-gallery" class="construction-page">
+	<div class="carousel-text" align="center">
+		<h1>Construction</h1>
+	</div>
+</section>
+<div class="container-fluid pading-0" id="book_now">
+	<div class="col-sm-12">
+		<div class="row">
+			<div class="col-sm-2 pading-0">
+				<div class="left-side">
+					 <button class="accordion" id="sectorId" name="sectorId" data-toggle="modal" data-target="#upcoming">Upcoming Courses</button>
+					
+				</div>
+			</div>
+			<div class="col-sm-10 pading-0">
+				<div class="right-side">
+					<div class="right-sides">
+						<h2>Filter these courses by date range, course name or location</h2>
+						<?php echo $this->Form->create('Course', array('controller' => 'courses', 'action' => 'construction','type' => 'get', 'id' => 'search_course')); ?>
+						<div class="row">
+							<div class="col-sm-3">
+								<div class="calender">
+									<input type="text" autocomplete="off" class="form-control testdate" data-toggle="datepicker" name="start_date" value="<?php if(!empty($getvalue['start_date'])) { echo ($getvalue['start_date']); } else { echo ""; } ?>" id="search" placeholder="Start Date">
+									<i class="fa fa-calendar" aria-hidden="true"></i>
+								</div>
+							</div>
+							<div class="col-sm-3">
+								<div class="calender">
+									<input type="text" autocomplete="off" class="form-control testdate" data-toggle="datepicker"  name="end_date" value="<?php if(!empty($getvalue['end_date'])) { echo ($getvalue['end_date']); } else { echo ""; } ?>"  placeholder="End Date">
+									<i class="fa fa-calendar" aria-hidden="true"></i>
+								</div>
+							</div>
+							<div class="col-sm-2">
+								<Select type="text" class="form-control" name="id">
+									<option value="">Course</option>
+									<?php foreach($list as $result) { ?>
+									<option value="<?php echo $result['Course']['id']; ?>"><?php echo $result['Course']['course_name']; ?></option>
+									<?php } ?>
+								</Select>
+							</div>
+							<div class="col-sm-2">
+								<Select type="text" class="form-control" name="location_id">
+									<option value="">Location</option>
+									<?php foreach($location as $result) { ?>
+									<option value="<?php echo $result['Location']['id']; ?>"><?php echo $result['Location']['location']; ?></option>
+									<?php } ?>
+								</Select>
+							</div>
+							<div class="col-sm-2">
+								<input type="submit" class="btn btn-success" value="Filter">
+							</div>
+						
+						</div>
+						<?php echo $this->form->end(); ?>
+					</div>
+					
+					<!-- filter course -->
+					<div class="table-responsive" id="coursename">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Course</th>
+								<th>Duration</th>
+								<th>Location</th>
+								<th>No. of Delegates<br>
+									per Session</th>
+								<th>Price Per Delegates<br>
+									excl VAT</th>
+								<th>Expiry<br>
+									Competence </th>
+								<th>Start Date</th>
+								<th>End Date</th>
+								<th>Book Now</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php $i=1; foreach($list as $result) { ?>
+							<tr>
+								<td><?php echo $result['Course']['course_name']; ?></td>
+								<td><?php echo $result['Course']['duration']; ?></td>
+								<td><?php echo $result['Location']['location']; ?></td>
+								<td><?php echo $result['Course']['delegates_no']; ?></td>
+								<td><span>&#163;</span><?php echo $result['Course']['delegate_price']; ?></td>
+								<td><?php echo $result['Course']['expiry']; ?></td>
+								<td><?php echo $result['Course']['start_date']; ?></td>
+								<td><?php echo $result['Course']['end_date']; ?></td>               
+								<td><button class="btn btn-success">Book Now</button></td>
+							</tr>
+							<?php $i++;} ?>    
+						</tbody>
+					</table>
+					   <nav aria-label="Page navigation example " class="pagin">
+  <ul class="pagination">
+    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+  </ul>
+</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- About section end-->
+<script>
+    function getnewevent() {
+        var sectorId = '2';
+        //var sectorId = $('#sectorId').val();
+        //alert(sectorId);
+        $.ajax({
+            url: SITEPATH + "courses/getnewcourseajax",
+            data: {
+                sectorId: sectorId,
+            },
+            type: "POST",
+            success: function (result) {
+                $("#coursename").empty().append(result);
+            }
+        });
+    };
+</script>

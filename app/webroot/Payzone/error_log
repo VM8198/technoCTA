@@ -1,0 +1,18 @@
+[13-Mar-2019 06:40:24 UTC] PHP Warning:  mysqli::mysqli(): (HY000/1045): Access denied for user 'root'@'localhost' (using password: NO) in /home/technosdssoftltd/public_html/app/webroot/Payzone/includes/helpers/db_example.php on line 106
+[13-Mar-2019 06:40:24 UTC] PHP Warning:  mysqli::query(): Couldn't fetch mysqli in /home/technosdssoftltd/public_html/app/webroot/Payzone/includes/helpers/db_example.php on line 108
+[13-Mar-2019 06:40:24 UTC] PHP Warning:  mysqli::query(): Couldn't fetch mysqli in /home/technosdssoftltd/public_html/app/webroot/Payzone/includes/helpers/db_example.php on line 111
+[06-Nov-2019 07:22:39 UTC] PHP Warning:  mysqli::mysqli(): (HY000/1045): Access denied for user 'technosd_techno'@'localhost' (using password: YES) in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 106
+[06-Nov-2019 07:22:39 UTC] PHP Warning:  mysqli::query(): Couldn't fetch mysqli in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 108
+[06-Nov-2019 07:22:39 UTC] PHP Warning:  mysqli::query(): Couldn't fetch mysqli in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 111
+[06-Nov-2019 09:36:36 UTC] PHP Warning:  mysqli::mysqli(): (HY000/1045): Access denied for user 'technosd_techno'@'localhost' (using password: YES) in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 106
+[06-Nov-2019 09:36:36 UTC] PHP Warning:  mysqli::query(): Couldn't fetch mysqli in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 108
+[06-Nov-2019 09:36:36 UTC] PHP Warning:  mysqli::query(): Couldn't fetch mysqli in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 111
+[06-Nov-2019 09:37:46 UTC] PHP Warning:  mysqli::mysqli(): (HY000/1045): Access denied for user 'technosd_techno'@'localhost' (using password: YES) in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 106
+[06-Nov-2019 09:37:46 UTC] PHP Warning:  mysqli::query(): Couldn't fetch mysqli in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 108
+[06-Nov-2019 09:37:46 UTC] PHP Warning:  mysqli::query(): Couldn't fetch mysqli in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 111
+[06-Nov-2019 09:47:14 UTC] PHP Warning:  mysqli::mysqli(): (HY000/1045): Access denied for user 'technosd_techno'@'localhost' (using password: YES) in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 106
+[06-Nov-2019 09:47:14 UTC] PHP Warning:  mysqli::query(): Couldn't fetch mysqli in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 108
+[06-Nov-2019 09:47:14 UTC] PHP Warning:  mysqli::query(): Couldn't fetch mysqli in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 111
+[06-Nov-2019 09:53:13 UTC] PHP Parse error:  syntax error, unexpected '"' in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 63
+[06-Nov-2019 09:53:20 UTC] PHP Parse error:  syntax error, unexpected '"' in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 63
+[06-Nov-2019 09:54:00 UTC] PHP Parse error:  syntax error, unexpected '"', expecting ',' or ';' in /home/demosdssoftltdco/public_html/techno/app/webroot/Payzone/includes/helpers/db_example.php on line 63

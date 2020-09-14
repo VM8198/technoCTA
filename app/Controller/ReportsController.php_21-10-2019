@@ -1,0 +1,235 @@
+<?php 
+
+
+
+Class ReportsController extends AppController{
+ var $helpers = array('Html', 'Form','Csv'); 
+	var $uses = array('Booking','Course','TransactionLog','Location','User') ;
+
+	var $components = array('Auth', 'Session', 'Email', 'RequestHandler');
+
+
+
+	function beforeFilter() {
+
+		parent::beforeFilter();
+
+        $this->Auth->allow('admin_export');
+
+    }
+
+ function admin_export() {
+	$getValue1 = array();
+    $getvalue1 = $_GET;
+   
+    $filterval1 = array_filter($_GET);
+    $result1 = array();
+    foreach ($filterval1 as $key => $val) {
+      if ($key == "from_date") {
+       $result1['transaction_datetime_txt >='] = $val;
+				 }
+		if ($key == "to_date") {
+		$result1['transaction_datetime_txt <='] = $val;
+		 }elseif ($key == "course_id") {
+		$result1['course_id'] = $val;
+
+            }elseif ($key == "location_id") {
+
+                $result1['Course.location_id'] = $val;
+
+            }elseif($key == "status"){
+
+				if($val=="Declined"){
+
+					$result1['TransactionLog.status'] = "Declined";
+
+				}else{
+
+					 $result1['TransactionLog.status'] = $val;
+	}
+  }elseif ($key == "delegate_price") {
+
+                $result1['Course.delegate_price'] = $val;
+
+            }
+		 }
+
+        if (!empty($filterval1)) {
+
+            $conditions = $result1;
+
+        } else {
+
+			$conditions = array('TransactionLog.status !=' =>'AuthCode: 376297');
+
+        }
+
+$bookinglist = $this->paginate = array(
+
+			'conditions'=> $conditions,
+      		'limit' => 10
+);
+
+		$bookinglist =  $this->paginate('TransactionLog');
+
+	 // $this->set('orders', $this->TransactionLog->find('all',array('fields' => array(' TransactionLog.status'),'conditions'=>array('TransactionLog.status !='=>'AuthCode: 376297'))));
+
+	 // $this->set('orders', $this->TransactionLog->find('all',array('conditions' =>$conditions)));
+
+	$payStatus = $this->TransactionLog->find('all', array('fields' => array('TransactionLog.status','TransactionLog.transaction_datetime_txt'),'conditions'=>$conditions));
+	$booking = $this->TransactionLog->find('all', array('fields' => array('DISTINCT Course.id','Course.course_name')));
+ 
+
+   //die();
+  $this->set('orders', $bookinglist);
+    $this->layout = null;
+    $this->autoLayout = false;
+    Configure::write('debug', '0');
+
+	}
+
+	function admin_reportListing(){
+
+		$this->layout="admin";
+
+		$UserCount =$this->User->find('all',array('conditions'=>array('User.user_type'=> 'User')));
+		$Individual_Users = count($UserCount);
+		$CompanyCount =$this->User->find('all',array('conditions'=>array('User.user_type'=> 'Company')));
+		$Organisation = count($CompanyCount);
+
+		$booking = $this->TransactionLog->find('all', array('fields' => array('DISTINCT Course.id','Course.course_name')));
+
+		$price = $this->TransactionLog->find('all', array('fields' => array('DISTINCT Course.delegate_price')));
+
+		$payStatus = $this->TransactionLog->find('all', array('fields' => array('DISTINCT TransactionLog.status'),'conditions'=>array('TransactionLog.status !='=>'AuthCode: 376297')));
+
+		//pr($booking); die;
+
+		$location = $this->Location->find('all');
+
+		$getValue = array();
+
+        $getvalue = $_GET;
+
+		$filterval = array_filter($_GET);
+
+		$result = array();
+
+		foreach ($filterval as $key => $val) {
+
+            if ($key == "from_date") {
+
+                $result['transaction_datetime_txt >='] = $val;
+
+				
+
+            }
+
+			if ($key == "to_date") {
+
+               $result['transaction_datetime_txt <='] = $val;
+
+            }elseif ($key == "course_id") {
+
+                $result['course_id'] = $val;
+
+            }elseif ($key == "location_id") {
+
+                $result['Course.location_id'] = $val;
+
+            }elseif($key == "status"){
+
+				if($val=="Declined"){
+
+					$result['TransactionLog.status'] = "Declined";
+
+				}else{
+
+					 $result['TransactionLog.status'] = $val;
+
+				}
+
+            }elseif ($key == "delegate_price") {
+
+                $result['Course.delegate_price'] = $val;
+
+            }
+
+        }
+
+        if (!empty($filterval)) {
+
+            $conditions = $result;
+
+        } else {
+
+			$conditions = array('TransactionLog.status !=' =>'AuthCode: 376297');
+
+        }
+
+		$bookinglist = $this->paginate = array(
+
+			'conditions'=> $conditions,
+
+			'limit' => 10
+
+
+
+		);
+
+		$bookinglist =  $this->paginate('TransactionLog');
+
+		//pr($loc); die;
+
+		  $this->set(compact('bookinglist','booking','getvalue','date','location','price','payStatus','Individual_Users','Organisation'));
+
+	}
+
+	
+
+	/*  function admin_viewReport($id = NULL) {
+
+        $this->layout = "admin";
+
+		$date = $this->request->data['Report']['date']=$this->request->data['Report']['date'];
+
+		//pr($id); die;
+
+		if(!empty($date)){
+
+			$conditions = array('transaction_datetime_txt LIKE' => $date . "%");
+
+		}else{
+
+			$conditions = array('Course.id' => $id);
+
+		}
+
+		$this->paginate = array(
+
+
+
+			'conditions' => $conditions,
+
+			'limit' => 10
+
+
+
+		);
+
+		$BookingDetail =  $this->paginate('TransactionLog');
+
+        //pr($result); die();
+
+        $this->set(compact('BookingDetail'));
+
+
+
+    } */
+
+
+
+}
+ 
+ 
+?>
