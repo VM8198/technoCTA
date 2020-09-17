@@ -6,12 +6,12 @@
 <?php $site = SITEPATH; 
 //echo $site; ?>
 <?php
-	if($this->Session->read('Auth')){
-		$authId = $_SESSION['Auth']['User'];
-		$authFirstName = $_SESSION['Auth']['User']['first_name'];
-		$authLastName = $_SESSION['Auth']['User'];
-		//echo $id;
-	}
+  if($this->Session->read('Auth')){
+    $authId = $_SESSION['Auth']['User']['id'];
+    $authFirstName = $_SESSION['Auth']['User']['first_name'];
+    $authLastName = $_SESSION['Auth']['User']['last_name'];
+    //echo $id;
+  }
 ?>
 <!-- Breadcrumb section -->
 <div class="site-breadcrumb">
@@ -51,7 +51,7 @@
                   <i class="fa fa-calendar" aria-hidden="true"></i>
                 </div>
               </div>-->
-			   <div class="col-sm-3">
+         <div class="col-sm-3">
                 <Select type="text" class="form-control" name="id">
                   <option value="">Course</option>
                   <?php foreach($course as $result) { ?>
@@ -88,18 +88,18 @@
                 <th>Expiry<br>Competence </th>
                 <th>Course Date</th>
                 <th>Start Time</th>
-				<th>End Time</th>
+        <th>End Time</th>
                 <th>Book Now</th>
-				 <th>Instruction</th>
+         <th>Instruction</th>
               </tr>
             </thead>
             <tbody id="newCourse">
-            	<?php $i=1; foreach($list as $value) { ?>
-              	<tr>
-					<td><?php echo $value['Course']['course_name']; ?></td>
-					<td><?php echo $value['Course']['duration']; ?></td>
-					<td><?php echo $value['Location']['location']; ?></td>
-					<td><?php echo $value['Course']['delegates_no']; ?></br>
+              <?php $i=1; foreach($course as $value) { ?>
+                <tr>
+          <td><?php echo $value['Course']['course_name']; ?></td>
+          <td><?php echo $value['Course']['duration']; ?></td>
+          <td><?php echo $value['Location']['location']; ?></td>
+          <td><?php echo $value['Course']['delegates_no']; ?></br>
             <div style="color:#449ac6;font-size:13px;">
               <?php $count1 = $value['Course']['delegates_no'] - sizeof($value['TransactionLog']); 
               // pr(sizeof($value['TransactionLog'])); 
@@ -115,14 +115,14 @@
      //        if($authId == true) { 
      //         if($_SESSION['Auth']['User']['user_type']=="User"){
      //          if($count1==1){
-					// 	echo "1 Space left.";
-					// }else{
-					// 	if($count1>0){
-					// 		echo $count1 ." Spaces left";
-					// 	}else{
-					// 		echo "No space";
-					// 	}
-					// }
+          //  echo "1 Space left.";
+          // }else{
+          //  if($count1>0){
+          //    echo $count1 ." Spaces left";
+          //  }else{
+          //    echo "No space";
+          //  }
+          // }
      //    }
      //    if($_SESSION['Auth']['User']['user_type']=="Company"){
      //        if($count1==4){
@@ -139,14 +139,14 @@
           ?>
           </div>
         </td>
-					<td><span>&#163;</span><?php echo $value['Course']['delegate_price']; ?></td>
-					<td><?php echo $value['Course']['expiry']; ?></td>
+          <td><span>&#163;</span><?php echo $value['Course']['delegate_price']; ?></td>
+          <td><?php echo $value['Course']['expiry']; ?></td>
 
           <?php if($authId == true) { ?>
-					<?php if($_SESSION['Auth']['User']['user_type']=="User"){?>
+          <?php if($_SESSION['Auth']['User']['user_type']=="User"){?>
             <td><?php $date =explode( ',',$value['Course']['start_date']);
             ?>
-					<Select type="text" class="form-control space-text" id="<?php echo $value['Course']['id']; ?>" style="width:122px;font-size: 13px;" onChange="ingdatefunction(this);">
+          <Select type="text" class="form-control space-text" id="<?php echo $value['Course']['id']; ?>" style="width:122px;font-size: 13px;" onChange="ingdatefunction(this);">
                   <option value="" selected>Course Date</option>
                   <?php 
     
@@ -185,10 +185,10 @@
                   <?php } } 
                     //   } ?>
                 </Select></td>
-					<?php }?>
-					<?php if($_SESSION['Auth']['User']['user_type']=="Company"){?>
+          <?php }?>
+          <?php if($_SESSION['Auth']['User']['user_type']=="Company"){?>
             <td><?php $date =explode( ',',$value['Course']['start_date']);?>
-					<Select type="text" class="form-control space-text" id="<?php echo $value['Course']['id']; ?>" style="width:122px;font-size: 13px;" onChange="datefunction(this);">
+          <Select type="text" class="form-control space-text" id="<?php echo $value['Course']['id']; ?>" style="width:122px;font-size: 13px;" onChange="datefunction(this);">
                   <option value="" selected>Course Date</option>
                   <?php foreach($date as $result) {
                 //  echo   $olddate =  trim($result); 
@@ -213,10 +213,10 @@
                   //@alka
                   } ?>
                 </Select></td>
-					<?php }?>
-					
-				<?php } else{ ?>
-					<td><?php $date =explode( ',',$value['Course']['start_date']);?>
+          <?php }?>
+          
+        <?php } else{ ?>
+          <td><?php $date =explode( ',',$value['Course']['start_date']);?>
 
             <Select type="text" class="form-control space-text" id="<?php echo $value['Course']['id']; ?>" style="width:122px;font-size: 13px;" onChange="datefunction(this);">
                   <option value="" selected>Course Date</option>
@@ -232,12 +232,12 @@
                   <?php } } ?>
                 </Select>
 
-				<!-- 	<Select type="text" class="form-control" id="<?php //echo $value['Course']['id']; ?>" style="width:100px;font-size: 13px;"  data-toggle="modal" data-target="#myModal">
+        <!--  <Select type="text" class="form-control" id="<?php //echo $value['Course']['id']; ?>" style="width:100px;font-size: 13px;"  data-toggle="modal" data-target="#myModal">
                   <option disabled="disabled" selected="selected" style="display:none">Course Date</option>
                  </Select> --></td>
              
-					<?php }?>
-					<td class="datess" id="dp<?php echo $value['Course']['id']; ?>"><?php //echo $value['Course']['start_time']; ?>
+          <?php }?>
+          <td class="datess" id="dp<?php echo $value['Course']['id']; ?>"><?php //echo $value['Course']['start_time']; ?>
          
           </td>  
           <td style="display:none;">
@@ -245,15 +245,15 @@
             <input type="hidden" id="<?php $time =explode( ',',$value['Course']['start_date']); print_r($time[$i]);?>" Value="<?php $time =explode( ',',$value['Course']['start_time']); print_r($time[$i]);?> ">
           <?php } ?>
           </td>             
-					<td class="datess" id="dpQ<?php echo $value['Course']['id']; ?>"><?php //echo $value['Course']['end_time']; ?></td>
+          <td class="datess" id="dpQ<?php echo $value['Course']['id']; ?>"><?php //echo $value['Course']['end_time']; ?></td>
           <td style="display:none;">
           <?php for($i=0;$i<=20;$i++){ ?>
             <input type="hidden" id="p<?php $times =explode( ',',$value['Course']['start_date']); print_r($times[$i]);?>" Value="<?php $times =explode( ',',$value['Course']['end_time']); print_r($times[$i]);?> ">
           <?php } ?>
           </td>   
-					<?php if($authId == true) { ?>
-					<?php if($_SESSION['Auth']['User']['user_type']=="User"){?>
-					<td>
+          <?php if($authId == true) { ?>
+          <?php if($_SESSION['Auth']['User']['user_type']=="User"){?>
+          <td>
             <?php if($count1<=0){ ?>
             <button class="btn btn-success pading-button disbale" data-toggle="modal" data-target="#Indivitualrail<?php echo $value['Course']['id']; ?>" disabled="">No Space</button>
 
@@ -261,9 +261,9 @@
             <button class="btn btn-success pading-button disbale" data-toggle="modal" data-target="#Indivitualrail<?php echo $value['Course']['id']; ?>" id="ing1<?php echo $value['Course']['id']; ?>" disabled="">Select Date</button>
          <?php } ?>
           </td>
-					<?php }?>
-					<?php if($_SESSION['Auth']['User']['user_type']=="Company"){?>
-					<td>
+          <?php }?>
+          <?php if($_SESSION['Auth']['User']['user_type']=="Company"){?>
+          <td>
             <?php 
             if($count1<=0){ ?>
             <button class="btn btn-success pading-button disbale" data-toggle="modal" data-target="#orgnisationrail<?php echo $value['Course']['id']; ?>"  disabled="">No Space</button>
@@ -271,41 +271,41 @@
               <button class="btn btn-success pading-button disbale" data-toggle="modal" data-target="#orgnisationrail<?php echo $value['Course']['id']; ?>" id="org1<?php echo $value['Course']['id']; ?>" disabled="">Select Date</button>
               <?php }?>
           </td>
-					<?php }?>
-					
-					<?php } else{ ?>
-					<td><button class="btn btn-success" data-toggle="modal" data-target="#myModal">Book Now</button>
-					
-					</td>
-					<?php } ?>
-					<td><?php if(!empty($value['Course']['pre_requisite'])){ ?>
-					<a class="btn btn-success pading-button" href="<?php echo $this->html->url(array('controller' => 'courses', 'action' => 'prerequisite',$value['Course']['id']));?>">Pre-Requisite</a>
-					<?php } else { ?>
-					<a class="btn btn-success pading-button"  style="display:none;" href="#">Pre-Requisite</a>
-					<?php } ?>
-					</td>
-					
-              	</tr>
+          <?php }?>
+          
+          <?php } else{ ?>
+          <td><button class="btn btn-success" data-toggle="modal" data-target="#myModal">Book Now</button>
+          
+          </td>
+          <?php } ?>
+          <td><?php if(!empty($value['Course']['pre_requisite'])){ ?>
+          <a class="btn btn-success pading-button" href="<?php echo $this->html->url(array('controller' => 'courses', 'action' => 'prerequisite',$value['Course']['id']));?>">Pre-Requisite</a>
+          <?php } else { ?>
+          <a class="btn btn-success pading-button"  style="display:none;" href="#">Pre-Requisite</a>
+          <?php } ?>
+          </td>
+          
+                </tr>
               <?php $i++;} ?>    
             </tbody>
           </table>
-		  
-			<!--<ul class="pagination">
-				<?php
-				 //echo ($this->Paginator->hasPrev()) ? $this->Paginator->prev('«', array('tag' => 'li'), null, null) : '<li class="disabled"><a href="#">«</a></li>';
-				 //echo $this->Paginator->numbers(array('separator' => false, 'tag' => 'li'));   
-				 //echo ($this->Paginator->hasNext()) ? $this->Paginator->next('»', array('tag' => 'li'), null, null) : '<li class="disabled"><a href="#">»</a></li>';
-			   ?>
-			</ul>-->
-				<?php if($count > 10) { ?>
-				<div class="text-center">
-					<ul class="pagination text-center">
-						<?= $this->Paginator->prev('< ' . __('previous')) ?>
-						<?= $this->Paginator->numbers() ?>
-						<?= $this->Paginator->next(__('next') . ' >') ?> 
-					</ul>
-				</div>
-				<?php } ?>
+      
+      <!--<ul class="pagination">
+        <?php
+         //echo ($this->Paginator->hasPrev()) ? $this->Paginator->prev('«', array('tag' => 'li'), null, null) : '<li class="disabled"><a href="#">«</a></li>';
+         //echo $this->Paginator->numbers(array('separator' => false, 'tag' => 'li'));   
+         //echo ($this->Paginator->hasNext()) ? $this->Paginator->next('»', array('tag' => 'li'), null, null) : '<li class="disabled"><a href="#">»</a></li>';
+         ?>
+      </ul>-->
+        <?php if($count > 10) { ?>
+        <div class="text-center">
+          <ul class="pagination text-center">
+            <?= $this->Paginator->prev('< ' . __('previous')) ?>
+            <?= $this->Paginator->numbers() ?>
+            <?= $this->Paginator->next(__('next') . ' >') ?> 
+          </ul>
+        </div>
+        <?php } ?>
           </div>
         </div>
       </div>

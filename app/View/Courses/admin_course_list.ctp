@@ -142,8 +142,8 @@ $.ajax({
             {
               $("html, body").animate({ scrollTop: 0 }, "slow");
                document.getElementById("msgs_ajax").innerHTML = "You have successfully Archived the courses.";
-             setTimeout(function(){  window.location.href = 'https://techno.sdssoftltd.co.uk/admin/courses/courseList';
- }, 5000);
+ //             setTimeout(function(){  window.location.href = 'https://techno.sdssoftltd.co.uk/admin/courses/courseList';
+ // }, 5000);
             }
             else
             {

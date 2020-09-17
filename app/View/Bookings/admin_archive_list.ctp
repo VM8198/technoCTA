@@ -143,8 +143,8 @@ $.ajax({
             {
               $("html, body").animate({ scrollTop: 0 }, "slow");
               document.getElementById("msg_ajax").innerHTML = "You have successfully Unarchived the courses.";
-              setTimeout(function(){  window.location.href = 'https://techno.sdssoftltd.co.uk/admin/bookings/archiveList';
- }, 5000);
+ //              setTimeout(function(){  window.location.href = 'https://techno.sdssoftltd.co.uk/admin/bookings/archiveList';
+ // }, 5000);
             }else
             {
               window.location.reload();

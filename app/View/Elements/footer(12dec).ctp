@@ -696,7 +696,7 @@
                <form class="comment-form --contact text-center">
                   <div class="row">
                      <div class="col-md-6">
-                        <span>Rail Course</span>
+                        <span>Rail </span>
                         <select name="coursess" id="coursesr" class="contactmodal" onchange="myFunctionsss(this);">
                            <option value="select">Select Option</option>
                            <option value="railway_safety">Railway Safety</option>

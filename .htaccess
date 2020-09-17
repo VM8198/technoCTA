@@ -1,5 +1,6 @@
 <IfModule mod_rewrite.c>
    RewriteEngine on
+   RewriteBase /technoCTA
    RewriteRule    ^$ app/webroot/    [L]
    RewriteRule    (.*) app/webroot/$1 [L]
    RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]

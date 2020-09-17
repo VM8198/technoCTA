@@ -678,7 +678,7 @@ class MemcachedEngineTest extends CakeTestCase {
 		));
 
 		Cache::write('some_value', 'cache1', 'memcached');
-		$result = Cache::clear(true, 'memcached');
+		$result = Cache::clear(false, 'memcached');
 		$this->assertTrue($result);
 		$this->assertEquals('cache1', Cache::read('some_value', 'memcached'));
 

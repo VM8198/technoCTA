@@ -1,6 +1,6 @@
 
 <?php
-// session_start();
+  // session_start();
 class UsersController extends AppController {
 	var $uses = array('User','Course','Booking','TransactionLog','Bookinglog','SponsorList','Coursedetail');
 	var $components = array('Auth', 'Session', 'Email', 'RequestHandler');
@@ -10,16 +10,13 @@ class UsersController extends AppController {
 	}
 	function admin_login() {
 
-		// pr($_SESSION); die();
-
 		$this->layout = 'admin_layout';
 		if (!empty($this->request->data)) {
+			debug($this->Auth->login());
 			if ($this->Auth->login()) {
-		// die("heelo");
-
-				// if ($_SESSION['Auth']['User']['user_type'] == "admin") {
+				 // if ($_SESSION['Auth']['User']['user_type'] == "admin") {
 					$this->redirect(array('controller' => 'users', 'action' => 'admin_dashboard'));
-				// }
+				 // }
 			} else {
 				$this->Session->setFlash("<font size='3' color='red'>please enter valid email_id and password </font>");
 			}
@@ -561,26 +558,18 @@ class UsersController extends AppController {
 		$this->autoRender = false;
 		$username = $this->data['email_id'];
 		$password =  $this->Auth->password($this->data['password']);
-	 //  pr($username);
-		// pr($password); die; 
+	  
 		$userDetail = $this->User->find('first', array('conditions' => array('User.username' => $username,'User.password'=>$password)));
-		if(empty($userDetail)){
-			echo "Empty";
-		}
-		// echo $userDetail['User'];
-		$userDetail['User']['first_name'] = $username;
-		$userDetail['User']['is_active'] = 1;
-		// $userDetail['User']['user_type'] == "User";
+		
 		// $name = $userDetail['User']['first_name']. " " .$userDetail['User']['last_name'];
 		$name = $userDetail['User']['first_name'];
-		echo "name ===>> ".$username;
 		$companyName = explode(",",$name);
 		$name = $companyName[0];
 		if (!empty($this->request->data)) {
-			if(($userDetail['User']['is_active'] == 0 )){
+			if(($userDetail['User']['is_active'] == 0 && $userDetail['User']['user_type'] == "User")||($userDetail['User']['is_active'] == 0 && $userDetail['User']['user_type'] == "Company")){
 				echo 0;
 			}else{
-				if (($userDetail['User']['is_active'] == 1 )||($userDetail['User']['is_active'] == 1 )) {
+				if (($userDetail['User']['is_active'] == 1 && $userDetail['User']['user_type'] == "User")||($userDetail['User']['is_active'] == 1 && $userDetail['User']['user_type'] == "Company")) {
 					if ($this->Auth->login($userDetail['User'])) {
 						if (!empty($this->request->data['User']['remember'])) {
                         if ($this->request->data['User']['remember'] == 1) {
@@ -588,7 +577,6 @@ class UsersController extends AppController {
                             setcookie('password', $this->request->data['User']['password'], time() + 60 * 60 * 24 * 365, "/");
                         }
                     }else {
-                    
                     } 
 
                     

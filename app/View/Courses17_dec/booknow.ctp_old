@@ -112,7 +112,7 @@
 								<td><?php echo $result['Course']['expiry']; ?></td>
 								<td><?php echo $result['Course']['start_date']; ?></td>
 								<td><?php echo $result['Course']['end_date']; ?></td>
-								<td><a href="http://localhost/TechnoCTA/Construction/Code/app/webroot/Payzone/cart.php?id=<?php echo $id; ?>&amp;price=<?php echo $result['Course']['delegate_price']; ?>&amp;userid=<?php echo $authId; ?>"><button class="btn btn-success">Book Now</button></a></td>
+								<td><a href="http://localhost:8080/technoCTA/Construction/Code/app/webroot/Payzone/cart.php?id=<?php echo $id; ?>&amp;price=<?php echo $result['Course']['delegate_price']; ?>&amp;userid=<?php echo $authId; ?>"><button class="btn btn-success">Book Now</button></a></td>
 							</tr>
 							<?php } ?>
 						</tbody>

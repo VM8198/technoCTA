@@ -88,7 +88,7 @@
               </tr>
             </thead>
             <tbody id="newCourse">
-            	<?php $i=1; foreach($list as $value) { ?>
+            	<?php $i=1; foreach($course as $value) { ?>
               <tr>
                 <td><?php echo $value['Course']['course_name']; ?></td>
                 <td><?php echo $value['Course']['duration']; ?></td>

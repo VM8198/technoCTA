@@ -1,79 +1,104 @@
 <?php
-
+App::uses('AppController', 'Controller');
+/**
+ * Faqs Controller
+ *
+ * @property Faq $Faq
+ * @property PaginatorComponent $Paginator
+ */
 class FaqsController extends AppController {
 
-    var $uses = array('Faq');
-    var $components = array('Auth', 'Session', 'Email', 'RequestHandler');
+/**
+ * Components
+ *
+ * @var array
+ */
+	public $components = array('Paginator');
 
-    function beforeFilter() {
-        $this->Auth->allow('faq');
-    }
-    function admin_addFaq(){
-        $this->layout="admin";
-        if(!empty($this->request->data)){
-            //pr($this->request->data);exit;
-            $this->request->data['Faq']['question']= $this->request->data['Faq']['question'];
-             $this->request->data['Faq']['answer']= $this->request->data['Faq']['answer'];
-             if($this->Faq->save($this->data)){
-                 
-                   $this->Session->setFlash("FAQ has been added successfully");
-              $this->redirect(array('controller'=>'faqs','action'=>'admin_faqList')); 
-             }
-        }
-    }
-      function admin_faqList($id=NULL) {
-        $this->layout = "admin";
+/**
+ * index method
+ *
+ * @return void
+ */
+	public function index() {
+		$this->Faq->recursive = 0;
+		$this->set('faqs', $this->Paginator->paginate());
+	}
 
-        $order = array('Faq.id' => 'DESC');
-        $this->paginate = array(
-            'order' => $order,
-            'limit' => 10
-        );
-        $userList = $this->paginate('Faq');
-        //pr( $products);exit;
-        $this->set(compact('userList'));
-    }
-    function admin_editFaq($id=NULL){
-        $this->layout="admin";
-         $userDetail=  $this->Faq->find('first',array('conditions'=>array('Faq.id'=>$id)));
-       //pr($userDetail);exit;
-        $this->set(compact('userDetail'));
-        if(!empty($this->request->data)){
-            $this->Faq->id=$id;
-            if($this->Faq->save($this->data)){
-                $this->Session->setFlash(_('FAQ has been edited successfully'));
-                $this->redirect(array('controller'=>'faqs',action=>'admin_faqList'));
-            }
-        }
-    }
-    function admin_delete($id=NULL){
-         $this->layout = "admin";
-        if (!$this->request->is('post')) {
-            
-        }
-        $this->Faq->id = $id;
-        if (!$this->Faq->exists()) {
-            
-        }
-        if ($this->Faq->delete()) {
-            $this->Session->setFlash(_('Faq has been deleted successfully'));
-            $this->redirect(array('controller' => 'faqs', action => 'admin_faqList'));
-        }
-        
-    }
-    function admin_faqDetail($id=NULL){
-        $this->layout="admin";
-         $conditions = array('Faq.id' => $id);
-        $userData = $this->Faq->find('first', array('conditions' => $conditions));
-        //pr($userData);exit;
-        $this->set(compact('userData'));
-    }
-      function faq() {
-        $this->layout = "jtc_layout";
-        $order = array('Faq.id' => 'DESC');
-        $faq = $this->Faq->find('all', array('order' => $order));
-       // pr($faq);die;
-        $this->Set(compact('faq'));
-    }
-    
+/**
+ * view method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function view($id = null) {
+		if (!$this->Faq->exists($id)) {
+			throw new NotFoundException(__('Invalid faq'));
+		}
+		$options = array('conditions' => array('Faq.' . $this->Faq->primaryKey => $id));
+		$this->set('faq', $this->Faq->find('first', $options));
+	}
+
+/**
+ * add method
+ *
+ * @return void
+ */
+	public function add() {
+		if ($this->request->is('post')) {
+			$this->Faq->create();
+			if ($this->Faq->save($this->request->data)) {
+				$this->Session->setFlash(__('The faq has been saved.'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The faq could not be saved. Please, try again.'));
+			}
+		}
+	}
+
+/**
+ * edit method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function edit($id = null) {
+		if (!$this->Faq->exists($id)) {
+			throw new NotFoundException(__('Invalid faq'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			if ($this->Faq->save($this->request->data)) {
+				$this->Session->setFlash(__('The faq has been saved.'));
+				return $this->redirect(array('action' => 'index'));
+			} else {
+				$this->Session->setFlash(__('The faq could not be saved. Please, try again.'));
+			}
+		} else {
+			$options = array('conditions' => array('Faq.' . $this->Faq->primaryKey => $id));
+			$this->request->data = $this->Faq->find('first', $options);
+		}
+	}
+
+/**
+ * delete method
+ *
+ * @throws NotFoundException
+ * @param string $id
+ * @return void
+ */
+	public function delete($id = null) {
+		$this->Faq->id = $id;
+		if (!$this->Faq->exists()) {
+			throw new NotFoundException(__('Invalid faq'));
+		}
+		$this->request->allowMethod('post', 'delete');
+		if ($this->Faq->delete()) {
+			$this->Session->setFlash(__('The faq has been deleted.'));
+		} else {
+			$this->Session->setFlash(__('The faq could not be deleted. Please, try again.'));
+		}
+		return $this->redirect(array('action' => 'index'));
+	}
 }

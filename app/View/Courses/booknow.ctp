@@ -40,7 +40,7 @@
 			
 					<div class="right-sides">
 						<h2>Filter these courses by date range, course name or location</h2>
-						<?php echo $this->Form->create('Course', array('controller' => 'courses', 'action' => 'booknow','type' => 'get', 'id' => 'search_course')); ?>
+						<?php echo $this->Form->create('Course', array('controller' => 'courses', 'action' => 'booknow','type' => 'get', 'id' => 'searchForm')); ?>
 						<div class="row">
 							<div class="col-sm-3">
 								<div class="calender">

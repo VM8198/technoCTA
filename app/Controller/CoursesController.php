@@ -669,14 +669,14 @@ $ext = substr(strtolower(strrchr($file, '.')), 1);
 			}
 
 			if(!empty($filterval)){
-		$conditions[] = $result;
-		$conditions[] = array('Course.archive'=>"0");
+						$conditions[] = $result;
+						$conditions[] = array('Course.archive'=>"0");
 					}
 					else
 					{
-		$conditions = array('Course.sector_id' => "1",'Course.is_active'=>"0",'Course.archive'=>"0");
+						$conditions = array('Course.sector_id' => "1",'Course.is_active'=>"0",'Course.archive'=>"0");
 				}
-		$order = array('Course.course_name'=> 'ASC');
+						$order = array('Course.course_name'	=> 'ASC');
 
 
 
@@ -711,118 +711,49 @@ $ext = substr(strtolower(strrchr($file, '.')), 1);
 
 	function construction(){
 
-
-
 		$this->layout="Home";
 
+		$location = $this->Location->find('all');	
 
-
-		$location = $this->Location->find('all');
-
-		
-
-		$course = $this->Course->find('all',array('conditions'=>array('Course.sector_id' => "2",'Course.is_active'=>"0",'Course.archive'=>"0"),'order'=> array('Course.course_name'=> 'ASC')));
-
-
+		// $course = $this->Course->find('all',array('conditions'=>array('Course.sector_id' => "2",'Course.is_active'=>"0",'Course.archive'=>"0"),'order'=> array('Course.course_name'=> 'ASC')));
 
 		$getvalue = array();
-
-
-
 		$getvalue = $_GET;
-
-
-
-		//pr($getvalue); die;
-
-
-
+		
 		$filterval = array_filter($getvalue);
-
-
-
-	  
-
-
 
 		$result = array();
 
-
-
 			foreach($filterval as $key => $val){
-
-
-
 						$result['Course' . '.' . $key] = $val;             
-
-
-
 				}
-
-
-
-
-
-
-
 				if(!empty($filterval)){
-
-
-
-					$conditions[] = $result;
-
-$conditions[] = array('Course.archive'=>"0");
+					$conditions = $result;
+					$conditions['Course.archive'] = 0;
+					$conditions['Course.sector_id'] = '2';
 
 				}else{
-
-
-
 					$conditions = array('Course.sector_id' => "2",'Course.is_active'=>"0",'Course.archive'=>"0");
-
-
-
-				}
-
-
-
-				
-
-
+			}
 
 		$order = array('Course.course_name'=> 'ASC');
 
-
-
-		$this->paginate = array(
-
-
-
+		$pArray = array(
 			'conditions' => $conditions,
-
-
-
-			'order'		=> $order,
-
-
-
-			'limit' => 20
-
-
-
+		 	'order'		=> $order,
+			'limit'		=>	10
 		);
 
-
+		unset($pArray['conditions']['Course.url']);
+		$this->paginate = $pArray;
 
 		$list =  $this->paginate('Course');
 
+		$count = $this->Course->find('count', $pArray);
 
+		$course = $this->Course->find('all',$pArray);
 
-		$count = $this->Course->find('count',array('conditions' => $conditions));
-
-
-
-		//pr($count); die;
-
+		$list =  $this->paginate('Course');
 
 
 		$this->set(compact('list','getvalue','location' ,'count','course'));
@@ -835,119 +766,52 @@ $conditions[] = array('Course.archive'=>"0");
 
 	function plant_operation(){
 
+$this->layout="Home";
 
+		$location = $this->Location->find('all');	
 
-		$this->layout="Home";
-
-		$location = $this->Location->find('all');
-
-		
-
-		$course = $this->Course->find('all',array('conditions'=>array('Course.sector_id' => "3",'Course.is_active'=>"0",'Course.archive'=>"0"),'order'=> array('Course.course_name'=> 'ASC')));
-
-
+		// $course = $this->Course->find('all',array('conditions'=>array('Course.sector_id' => "2",'Course.is_active'=>"0",'Course.archive'=>"0"),'order'=> array('Course.course_name'=> 'ASC')));
 
 		$getvalue = array();
-
-
-
 		$getvalue = $_GET;
-
-
-
-		//pr($getvalue); die;
-
-
-
+		
 		$filterval = array_filter($getvalue);
-
-
-
-	  
-
-
 
 		$result = array();
 
-
-
 			foreach($filterval as $key => $val){
-
-
-
 						$result['Course' . '.' . $key] = $val;             
-
-
-
 				}
-
-
-
-
-
-
-
 				if(!empty($filterval)){
-
-
-
-					$conditions[] = $result;
-
-$conditions[] = array('Course.archive'=>"0");
+					$conditions = $result;
+					$conditions['Course.archive'] = 0;
+					$conditions['Course.sector_id'] = '3';
 
 				}else{
-
-
-
 					$conditions = array('Course.sector_id' => "3",'Course.is_active'=>"0",'Course.archive'=>"0");
-
-
-
-				}
-
-
-
-				
-
-
+			}
 
 		$order = array('Course.course_name'=> 'ASC');
 
-
-
-		$this->paginate = array(
-
-
-
+		$pArray = array(
 			'conditions' => $conditions,
-
-
-
-			'order'		=> $order,
-
-
-
-			'limit' => 20
-
-
-
+		 	'order'		=> $order,
+			'limit'		=>	10
 		);
 
+		unset($pArray['conditions']['Course.url']);
+		$this->paginate = $pArray;
 
+		$list =  $this->paginate('Course');
+
+		$count = $this->Course->find('count', $pArray);
+
+		$course = $this->Course->find('all',$pArray);
 
 		$list =  $this->paginate('Course');
 
 
-
-		$count = $this->Course->find('count',array('conditions' => $conditions));
-
-
-
-		//pr($count); die;
-
-
-
-		$this->set(compact('list','getvalue','location','count','course'));
+		$this->set(compact('list','getvalue','location' ,'count','course'));
 
 		return $course;
 
@@ -961,119 +825,52 @@ $conditions[] = array('Course.archive'=>"0");
 
 	function small_tools(){
 
+$this->layout="Home";
 
+		$location = $this->Location->find('all');	
 
-		$this->layout="Home";
-
-		
-
-		$location = $this->Location->find('all');
-
-		$course = $this->Course->find('all',array('conditions'=>array('Course.sector_id' => "4",'Course.is_active'=>"0",'Course.archive'=>"0"),'order'=> array('Course.course_name'=> 'ASC')));
-
-
+		// $course = $this->Course->find('all',array('conditions'=>array('Course.sector_id' => "2",'Course.is_active'=>"0",'Course.archive'=>"0"),'order'=> array('Course.course_name'=> 'ASC')));
 
 		$getvalue = array();
-
-
-
 		$getvalue = $_GET;
-
-
-
-		//pr($getvalue); die;
-
-
-
+		
 		$filterval = array_filter($getvalue);
-
-
-
-	  
-
-
 
 		$result = array();
 
-
-
 			foreach($filterval as $key => $val){
-
-
-
 						$result['Course' . '.' . $key] = $val;             
-
-
-
 				}
-
-
-
-
-
-
-
 				if(!empty($filterval)){
-
-
-
-					$conditions[] = $result;
-
-$conditions[] = array('Course.archive'=>"0");
+					$conditions = $result;
+					$conditions['Course.archive'] = 0;
+					$conditions['Course.sector_id'] = '4';
 
 				}else{
-
-
-
 					$conditions = array('Course.sector_id' => "4",'Course.is_active'=>"0",'Course.archive'=>"0");
-
-
-
-				}
-
-
-
-				
-
-
+			}
 
 		$order = array('Course.course_name'=> 'ASC');
 
-
-
-		$this->paginate = array(
-
-
-
+		$pArray = array(
 			'conditions' => $conditions,
-
-
-
-			'order'		=> $order,
-
-
-
-			'limit' => 20
-
-
-
+		 	'order'		=> $order,
+			'limit'		=>	10
 		);
 
+		unset($pArray['conditions']['Course.url']);
+		$this->paginate = $pArray;
 
+		$list =  $this->paginate('Course');
+
+		$count = $this->Course->find('count', $pArray);
+
+		$course = $this->Course->find('all',$pArray);
 
 		$list =  $this->paginate('Course');
 
 
-
-		$count = $this->Course->find('count',array('conditions' => $conditions));
-
-
-
-		//pr($count); die;
-
-
-
-		$this->set(compact('list','getvalue','location','count','course'));
+		$this->set(compact('list','getvalue','location' ,'count','course'));
 
 		return $course;
 
@@ -1086,120 +883,52 @@ $conditions[] = array('Course.archive'=>"0");
 
 
 	function health_safety(){
+$this->layout="Home";
 
+		$location = $this->Location->find('all');	
 
-
-		$this->layout="Home";
-
-
-
-		$location = $this->Location->find('all');
-
-		$course = $this->Course->find('all',array('conditions'=>array('Course.sector_id' => "5",'Course.is_active'=>"0",'Course.archive'=>"0"),'order'=> array('Course.course_name'=> 'ASC')));
-
-
+		// $course = $this->Course->find('all',array('conditions'=>array('Course.sector_id' => "2",'Course.is_active'=>"0",'Course.archive'=>"0"),'order'=> array('Course.course_name'=> 'ASC')));
 
 		$getvalue = array();
-
-
-
 		$getvalue = $_GET;
-
-
-
-		//pr($getvalue); die;
-
-
-
+		
 		$filterval = array_filter($getvalue);
-
-
-
-	  
-
-
 
 		$result = array();
 
-
-
 			foreach($filterval as $key => $val){
-
-
-
 						$result['Course' . '.' . $key] = $val;             
-
-
-
 				}
-
-
-
-
-
-
-
 				if(!empty($filterval)){
-
-
-
-					$conditions[] = $result;
-
-$conditions[] = array('Course.archive'=>"0");
+					$conditions = $result;
+					$conditions['Course.archive'] = 0;
+					$conditions['Course.sector_id'] = '5';
 
 				}else{
-
-
-
 					$conditions = array('Course.sector_id' => "5",'Course.is_active'=>"0",'Course.archive'=>"0");
-
-
-
-				}
-
-
-
-				
-
-
+			}
 
 		$order = array('Course.course_name'=> 'ASC');
 
-
-
-		$this->paginate = array(
-
-
-
+		$pArray = array(
 			'conditions' => $conditions,
-
-
-
-			'order'		=> $order,
-
-
-
-			'limit' => 20
-
-
-
+		 	'order'		=> $order,
+			'limit'		=>	10
 		);
 
+		unset($pArray['conditions']['Course.url']);
+		$this->paginate = $pArray;
 
+		$list =  $this->paginate('Course');
+
+		$count = $this->Course->find('count', $pArray);
+
+		$course = $this->Course->find('all',$pArray);
 
 		$list =  $this->paginate('Course');
 
 
-
-		$count = $this->Course->find('count',array('conditions' => $conditions));
-
-
-
-		//pr($count); die;
-
-
-
-		$this->set(compact('list','getvalue','location','count','course'));
+		$this->set(compact('list','getvalue','location' ,'count','course'));
 
 		return $course;
 
@@ -1219,7 +948,7 @@ $conditions[] = array('Course.archive'=>"0");
 
 
 
-		$course = $this->Course->find('all',array('conditions'=>array('Course.is_active'=>"0",'Course.archive'=>"0"),'order'=> array('Course.course_name'=> 'ASC')));
+		// $course = $this->Course->find('all',array('conditions'=>array('Course.is_active'=>"0",'Course.archive'=>"0"),'order'=> array('Course.course_name'=> 'ASC')));
 
 
 
@@ -1235,7 +964,7 @@ $conditions[] = array('Course.archive'=>"0");
 
 
 
-		//pr($getvalue); die;
+		 // pr($getvalue); die;
 
 
 
@@ -1252,93 +981,40 @@ $conditions[] = array('Course.archive'=>"0");
 
 
 			foreach($filterval as $key => $val){
-
-
-
-						$result['Course' . '.' . $key] = $val;             
-
-
+						$result['Course' . '.' . $key] = $val;
 
 				}
-
-
-
-
-
-
 
 				if(!empty($filterval)){
-
-
-
-					$conditions[] = $result;
-
-$conditions[] = array('Course.archive'=>"0");
+					$conditions = $result;
+					$conditions['Course.archive'] = 0;
 
 				}else{
-
-
-
 					$conditions = array('Course.is_active'=>"0",'Course.archive'=>"0");
-
-
-
 				}
 
-
-
-				
-
-		//pr($result); die;
 
 		$order = array('Course.course_name'=> 'ASC');
 
+		$pArray = array(
+			'conditions' => $conditions,
+		 	'order'		=> $order,
+			'limit'		=>	10
+		);		
 
 
-		$this->paginate = array(
+		$count = $this->Course->find('count', $pArray);
 
+		unset($pArray['conditions']['Course.url']);
+		$this->paginate = $pArray;
 
-
-		'conditions' => $conditions,
-
-
-
-	 	'order'		=> $order,
-
-
-
-		'limit'		=>	20
-
-
-
-		);
-
-
+		$course = $this->Course->find('all', $pArray);
 
 		$list =  $this->paginate('Course');
 
-
-
-		//$list = $this->Course->find('all',array('conditions' => $conditions));
-
-
-
-		$count = $this->Course->find('count');
-
-
-
-		//pr($count); die;
-
-
-
 		$this->set(compact('list','getvalue','location','count','course'));
 
-
-
 		return $course;
-
-
-
 	}
 
 

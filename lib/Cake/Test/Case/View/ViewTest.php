@@ -824,7 +824,7 @@ class ViewTest extends CakeTestCase {
 			'path' => CACHE . 'views' . DS,
 			'prefix' => ''
 		));
-		Cache::clear(true, 'test_view');
+		Cache::clear(false, 'test_view');
 
 		$View = new TestView($this->PostsController);
 		$View->elementCache = 'test_view';
@@ -861,7 +861,7 @@ class ViewTest extends CakeTestCase {
 		$result = Cache::read('element__test_element_cache_callbacks_param_foo', 'test_view');
 		$this->assertEquals($expected, $result);
 
-		Cache::clear(true, 'test_view');
+		Cache::clear(false, 'test_view');
 		Cache::drop('test_view');
 	}
 

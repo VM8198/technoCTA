@@ -171,14 +171,13 @@ class BookingsController extends AppController{
 	$payStatus = $this->TransactionLog->find('all', array('fields' => array('DISTINCT TransactionLog.status'),'conditions'=>array('TransactionLog.status !='=>'AuthCode: 376297')));
 	$course_list = $this->Course->find('all',array('conditions'=>array('Course.is_active'=>"0"),'order'=> array('Course.course_name'=> 'ASC')));
 
-	$start = date("Y-m", strtotime("-1 month"));
-// pr($start);
+	$start = date("d-m-y", strtotime("-1 month"));
+pr($start);
 	$getValue = array();
         $getvalue = $_GET;
        // pr($getvalue); die;
 		$filterval = array_filter($_GET);
 		$result = array();
-		 // pr($filterval); die;
 		foreach ($filterval as $key => $val) {
             if ($key == "status") {
                 if($val=="Declined"){
@@ -205,31 +204,40 @@ class BookingsController extends AppController{
 		if (!empty($filterval)) {
             $conditions = $result;
         } else {
-		$conditions[] = array('TransactionLog.status !=' =>'AuthCode: 376297');
-        $conditions[] = array('TransactionLog.transaction_datetime <=' => $start);
+			$conditions[] = array('TransactionLog.status !=' =>'AuthCode: 376297');
+       		$conditions[] = array('TransactionLog.transaction_datetime <=' => $start);
         }
 
     
-//pr($conditions);die();
+
 
 	$order = array('TransactionLog.id'=> 'DESC');
+	unset($conditions['url']);
+	unset($conditions['TransactionLog.transaction_datetime  <=']);
+	unset($conditions['Month(TransactionLog.transaction_datetime_txt)']);
+	unset($conditions['Year(TransactionLog.transaction_datetime_txt)']);
+	 
 
-		$this->paginate = array(
+	$pArray = array(
 			'conditions' => $conditions,
 			'order' => $order,
 			'limit' => 20
 
 		);
 
-		
+		$this->paginate = $pArray;
+		// pr($pArray);
+
 		$bookinglist =  $this->paginate('TransactionLog');
+		// pr($bookinglist);
+		// date(format)ie;
 	$locationNameArr = array(); 
 		foreach ($bookinglist as $bookinglistV) {
 			$locID = $bookinglistV['Course']['location_id'];
 		
 		$locationNameArr[] = $this->Location->find('first',array('conditions' => array('Location.id' => $locID)));
 		}
-
+	// 	pr($locationNameArr); die;
         $this->set(compact('bookinglist','getvalue','course_list','payStatus','locationNameArr'));
     }
 

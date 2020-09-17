@@ -51,6 +51,7 @@ Class HomesController extends AppController{
      }
 
      function getCourse(){
+        echo "<h1>in getcourse fun===></h1>";
 
         $course = array();
 
@@ -87,6 +88,7 @@ Class HomesController extends AppController{
      }
 
      function getcourseajax() {
+        // echo "<h1>in getcourse ajax fun===></h1>";
 
         $sectorId = $this->data['sectorId'];
 
@@ -115,6 +117,7 @@ Class HomesController extends AppController{
     function course_save()
 
     {
+        echo "<h1>in course save function</h1>";
 
         $this->layout ='Home';
 
@@ -142,7 +145,7 @@ Class HomesController extends AppController{
 
         $userids=$user['User']['id'];
 
-        // pr($user);die();
+     //pr($user);die();
 
 
 

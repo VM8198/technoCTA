@@ -307,7 +307,6 @@ setTimeout(function() {
 <script>
     function getsectorId() {
         var sectorId = $('#sectorId').val();
-        //alert(sectorId);
         $.ajax({
             url: SITEPATH + "homes/getcourseajax",
             data: {

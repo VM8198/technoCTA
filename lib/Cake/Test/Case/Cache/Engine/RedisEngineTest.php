@@ -282,7 +282,7 @@ class RedisEngineTest extends CakeTestCase {
 		));
 
 		Cache::write('some_value', 'cache1', 'redis');
-		$result = Cache::clear(true, 'redis');
+		$result = Cache::clear(false, 'redis');
 		$this->assertTrue($result);
 		$this->assertEquals('cache1', Cache::read('some_value', 'redis'));
 

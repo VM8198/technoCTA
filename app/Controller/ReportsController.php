@@ -126,7 +126,7 @@ Class ReportsController extends AppController{
 	 // $this->set('orders', $this->TransactionLog->find('all',array('fields' => array(' TransactionLog.status'),'conditions'=>array('TransactionLog.status !='=>'AuthCode: 376297'))));
 
 	 // $this->set('orders', $this->TransactionLog->find('all',array('conditions' =>$conditions)));
-
+	var_dump($conditions); die;
 	$payStatus = $this->TransactionLog->find('all', array('fields' => array('TransactionLog.status','TransactionLog.transaction_datetime_txt'),'conditions'=>$conditions));
 	$booking = $this->TransactionLog->find('all', array('fields' => array('DISTINCT Course.id','Course.course_name')));
  
@@ -470,7 +470,10 @@ Class ReportsController extends AppController{
 			$conditions = array('TransactionLog.status !=' =>'AuthCode: 376297');
 
         }
+        unset($conditions['TransactionLog.transaction_datetime_txt >=']);
+		unset($conditions['TransactionLog.transaction_datetime_txt <=']);
        // pr($conditions);
+
 
 		$bookinglist = $this->paginate = array(
 
@@ -484,7 +487,7 @@ Class ReportsController extends AppController{
 
 		$bookinglist =  $this->paginate('TransactionLog');
 
-		//pr($bookinglist); //die;
+		
 
 		  $this->set(compact('bookinglist','booking','getvalue','date','location','price','payStatus','Individual_Users','Organisation'));
 

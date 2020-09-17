@@ -280,7 +280,6 @@ setTimeout(function() {
 <script>
     function getsectorId() {
         var sectorId = $('#sectorId').val();
-        //alert(sectorId);
         $.ajax({
             url: SITEPATH + "homes/getcourseajax",
             data: {
@@ -296,7 +295,6 @@ setTimeout(function() {
 <script>
     function getlocationid() {
         var coursename = $('#coursename').val();
-        //alert(coursename);
         $.ajax({
             url: SITEPATH + "homes/getlocationajax",
             data: {
