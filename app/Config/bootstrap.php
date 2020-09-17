@@ -119,12 +119,12 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
-// if($_SERVER['HTTP_HOST']=='localhost'){
-//             define('SITEPATH','http://localhost/TechnoCTA/Construction/Code/');
-//             define('ADMINSITEPATH','http://localhost/TechnoCTA/Construction/Code/admin/');
-if($_SERVER['HTTP_HOST']=='localhost:8080' || '0.0.0.0:8080'){
-            define('SITEPATH','http://localhost:8080/technoCTA/');
-            define('ADMINSITEPATH','http://localhost:8080/technoCTA/admin/');
+if($_SERVER['HTTP_HOST']=='localhost'){
+            define('SITEPATH','http://localhost/TechnoCTA/Construction/Code/');
+            define('ADMINSITEPATH','http://localhost/TechnoCTA/Construction/Code/admin/');
+// if($_SERVER['HTTP_HOST']=='localhost:8080' || '0.0.0.0:8080'){
+//             define('SITEPATH','http://localhost:8080/technoCTA/');
+//             define('ADMINSITEPATH','http://localhost:8080/technoCTA/admin/');
 
         
 } else {
