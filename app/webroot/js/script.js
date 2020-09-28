@@ -68,8 +68,8 @@ $(document).ready(function(){$("#Next").click(function(){$("#steps2").addClass("
 	}
 	   ///
 	   var _ROOT="https://" + window.location.hostname;
-	    function myFunctionss(e){var t=e.value,n=_ROOT+"/techno/courses/"+t;""==document.getElementById("coursess").value?document.getElementById("screen").classList.add("disbbtn"):(document.getElementById("screen").href=n,document.getElementById("screen").classList.remove("disbbtn"),document.getElementById("coursesr").value="")}
-	   function myFunctionsss(e){var s=e.value,t=_ROOT+"/techno/courses/"+s;""==document.getElementById("coursesr").value?document.getElementById("screen").classList.add("disbbtn"):(document.getElementById("screen").href=t,document.getElementById("screen").classList.remove("disbbtn"),document.getElementById("coursess").value="")}
+	    function myFunctionss(e){var t=e.value,n=_ROOT+"/courses/"+t;""==document.getElementById("coursess").value?document.getElementById("screen").classList.add("disbbtn"):(document.getElementById("screen").href=n,document.getElementById("screen").classList.remove("disbbtn"),document.getElementById("coursesr").value="")}
+	   function myFunctionsss(e){var s=e.value,t=_ROOT+"/courses/"+s;""==document.getElementById("coursesr").value?document.getElementById("screen").classList.add("disbbtn"):(document.getElementById("screen").href=t,document.getElementById("screen").classList.remove("disbbtn"),document.getElementById("coursess").value="")}
 	   //////org rail velidation
 	   function orgRail(obj){
 		var x, text;

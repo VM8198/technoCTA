@@ -465,8 +465,39 @@ class UsersController extends AppController {
 			$this->request->data['User']['password'] = $this->Auth->password($this->request->data['User']['password']);
 			
 			if ($this->User->save($this->data)) {
-                $id = $this->User->getLastInsertID();
-				//pr($id); die;
+				require_once('/var/www/html/app/Vendor/phpmailer/PHPMailerAutoload.php');
+
+				// $mail = new PHPMailer;
+
+				// $mail->isSMTP();
+				// $mail->SMTPDebug = false;
+				// $mail->Debugoutput = 'html';
+				// $mail->Host = 'smtp.gmail.com';
+				// $mail->Port = 587;
+				// $mail->SMTPSecure = 'tls';
+				// $mail->SMTPAuth = true;
+
+				// $mail->Username = 'raoinfotechp@gmail.com';
+				// $mail->Password = 'raoinfotech@123';
+				// $mail->setFrom('raoinfotechp@gmail.com', 'From Name (freeform string)');
+				// $mail->addAddress('malvivivek8198@gmail.com'); //call this multiple times for multiple recipients
+				// $mail->Subject = 'Subject';
+				// $mail->msgHTML('<h3>Hello World</h3>');
+				// $mail->AltBody = 'alternative body if html fails to load';
+				// //$mail->addAttachment('/path/to/file/); //OPTIONAL attachment
+
+				// if (!$mail->send()) {
+				//     echo "Mailer Error: ";
+				//     echo $mail->ErrorInfo;
+				// } else {
+				//     echo "Email sent";
+				//     $this->Session->setFlash("Thank you for registration. Please check your email to activate your account. If you do not find the mail in inbox then please check in spam folder.", 'default', array(), 'form1');
+    //                    $this->Session->setFlash("<script>alert('Thank you for registration. Please check your email to activate your account. If you do not find the mail in inbox then please check in spam folder.');</script>");
+    //                     $this->redirect(array('controller' => 'homes', 'action' => 'index'));
+				// }
+
+   //              $id = $this->User->getLastInsertID();
+			// 	//pr($id); die;
 				$name = $this->request->data['User']['first_name'];
 				$email = $this->request->data['User']['email_id'];
 				$subject = "Techno CTA Registration Mail";
@@ -477,34 +508,61 @@ class UsersController extends AppController {
 				$message .= "<a href=" . SITEPATH . "users/verify/" . $forgotRandStr . "/" . ">Click Here</a><br/><br/>";
 				$message .= "<br/>Thanks & Regards, <br/>Techno CTA Team";
 			
-			
-				App::import('Vendor', 'phpmailer', array(
-				'file' => 'phpmailer/class.phpmailer.php'));
-				$message = $message;
-				// $to = 'keshav.rawat7@hotmail.com';
-					$to = 'booking@technocta.co.uk';
+					
+			// 	// App::import('Vendor', 'phpmailer', array(
+			// 	// 'file' => 'phpmailer/class.phpmailer.php'));
+			// 	require_once('/var/www/html/app/Vendor/phpmailer/PHPMailerAutoload.php');
+
+			// 	$message = $message;
+			// 	$to = 'malvivivek8198@gmail.com';
+			// 	// $to = 'keshav.rawat7@hotmail.com';
+			// 	//	$to = 'booking@technocta.co.uk';
 				
-				$mail = new PHPMailer();
-				$mail->IsHTML(true);
-				$mail->SetFrom($to, 'Techno CTA');
-				$mail->AddReplyTo($to, "Techno CTA");
+			// 	$mail = new PHPMailer();
+			// 	$mail->isHTML(true);
+			// 	$mail->isSMTP();
+			// 	$mail->Host = 'smtp.gmail.com';
+			// 	$mail->Port = 587;
+			// 	$mail->SMTPSecure = 'tls';
+			// 	$mail->SMTPAuth = true;
+			// 	$mail->setFrom('raoinfotechp@gmail.com', 'Techno CTA');
+			// //	$mail->AddReplyTo($to, "Techno CTA");
+			// 	$mail->Subject = $subject;
+			// 	$mail->Body = $message;
+			// 	$mail->addAddress('malvivivek8198@gmail.com');
+			// 	$mail->Send();
+
+				$mail = new PHPMailer;
+
+				$mail->isSMTP();
+				$mail->SMTPDebug = false;
+				$mail->Debugoutput = 'html';
+				$mail->Host = 'smtp.gmail.com';
+				$mail->Port = 587;
+				$mail->SMTPSecure = 'tls';
+				$mail->SMTPAuth = true;
+
+				$mail->Username = 'raoinfotechp@gmail.com';
+				$mail->Password = 'raoinfotech@123';
+				$mail->setFrom('raoinfotechp@gmail.com', 'Techno CTA');
+				$mail->addAddress(trim($email)); //call this multiple times for multiple recipients
 				$mail->Subject = $subject;
-				$mail->Body = $message;
-				$mail->AddAddress(trim($email));
-				
+				$mail->msgHTML($message);
+				$mail->AltBody = 'alternative body if html fails to load';
+
 				if (!$mail->Send()) {
 					echo $mail->ErrorInfo;
 					$datafor['User']['random_str'] = $forgotRandStr;
-					$this->User->id = $id;
-					//pr($id); die;
-					if ($this->User->save($datafor)) {
-						$id = $this->User->getLastInsertID();
-						 $this->Session->setFlash("Thank you for registration. Please check your email to activate your account. If you do not find the mail in inbox then please check in spam folder.", 'default', array(), 'form1');
-						$this->redirect(array('controller' => 'homes', 'action' => 'index'));
-					}else {
-						  $this->Session->setFlash("Some thing went wrong.", 'default', array(), 'form1');
+					// $this->User->id = $id;
+					//pr($mail->ErrorInfo); die;
+					// if ($this->User->save($datafor)) {
+					// 	$id = $this->User->getLastInsertID();
+					// 	 $this->Session->setFlash("Thank you for registration. Please check your email to activate your account. If you do not find the mail in inbox then please check in spam folder.", 'default', array(), 'form1');
+					// 	$this->redirect(array('controller' => 'homes', 'action' => 'index'));
+					// }else {
+						$this->Session->setFlash("Some thing went wrong.", 'default', array(), 'form1');
                         $this->redirect(array('controller' => 'homes', 'action' => 'index'));
-					}
+					// }
 				} else {
 					$resultnew = "1";
                     $datafor['User']['random_str'] = $forgotRandStr;

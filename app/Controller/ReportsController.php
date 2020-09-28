@@ -1,4 +1,4 @@
-<?php 
+	<?php 
 
 
 
@@ -324,14 +324,13 @@ Class ReportsController extends AppController{
 	
 
 		if($_POST['couserType'] == 'Rail Course' && count($_POST['courseArr']) == 1)       {
-		$sector = $this->Sector->find('all',array('conditions'=>array('Sector.id' => 1)));
-		echo "<option value=''>Select Sector</option>";
-		foreach ($sector as $sectorvalue) {
-		
-		echo "<option value= ".$sectorvalue['Sector']['id']
-			.">".$sectorvalue['Sector']['sector_name']."</option>";
-		}
-		die();
+			$sector = $this->Sector->find('all',array('conditions'=>array('Sector.id' => 1)));
+			echo "<option value=''>Select Sector</option>";
+			foreach ($sector as $sectorvalue) {			
+				echo "<option value= ".$sectorvalue['Sector']['id']
+					.">".$sectorvalue['Sector']['sector_name']."</option>";
+			}	
+			die();
 		}
 		else if($_POST['couserType'] == 'Non-Rail Course' && count($_POST['courseArr']) == 1 ){
 		$sector = $this->Sector->find('all',array('conditions'=>array('Sector.id !=' => 1)));
@@ -376,7 +375,7 @@ Class ReportsController extends AppController{
 	
 
 		foreach ($filterval as $key => $val) {
-
+			//pr("val==>"); pr($val);
             if ($key == "from_date") {
 			$result['TransactionLog.transaction_datetime_txt >='] = $val;
 				}
@@ -430,7 +429,7 @@ Class ReportsController extends AppController{
 
           $csector = $this->Course->find('all',array('conditions'=>array('Course.sector_id ' =>  $val)));
           foreach ($csector as $cvalue) {
-          	$courseIdarr[] = $cvalue['Course']['id'];
+          	$courseIdarr = $cvalue['Course']['id'];
           }
      
 	$result['TransactionLog.course_id IN '] = $courseIdarr;
@@ -438,7 +437,7 @@ Class ReportsController extends AppController{
             }elseif ($key == "location_id") {
 
             	//$result['Course.location_id IN '] = $val;
-                $result['Course.location_id'] = $val;
+                $result['Course.location_id'] = reset($val);
 
             }elseif($key == "status"){
 
@@ -472,10 +471,13 @@ Class ReportsController extends AppController{
         }
         unset($conditions['TransactionLog.transaction_datetime_txt >=']);
 		unset($conditions['TransactionLog.transaction_datetime_txt <=']);
+		// unset($conditions['course_id']);
+		// unset($conditions['Course.location_id']);
+		unset($conditions['TransactionLog.course_id IN ']);
        // pr($conditions);
 
 
-		$bookinglist = $this->paginate = array(
+		$this->paginate = array(
 
 			'conditions'=>  $conditions,
 
@@ -485,9 +487,11 @@ Class ReportsController extends AppController{
 
 		);
 
+
+
 		$bookinglist =  $this->paginate('TransactionLog');
 
-		
+		// pr($bookinglist); die;
 
 		  $this->set(compact('bookinglist','booking','getvalue','date','location','price','payStatus','Individual_Users','Organisation'));
 

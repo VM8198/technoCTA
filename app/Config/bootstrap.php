@@ -1,8 +1,12 @@
 <?php
 
-ini_set('display_errors', '1');
-ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
+//ini_set('display_errors', '1');
+//ini_set('display_startup_errors', '1');
+//error_reporting(E_ALL);
+
+//ini_set('display_errors', '1');
+//ini_set('display_startup_errors', '1');
+//error_reporting(E_ALL);
 /**
  * This file is loaded automatically by the app/webroot/index.php file after core.php
  *
@@ -133,3 +137,4 @@ if($_SERVER['HTTP_HOST']=='localhost'){
             define('SITEPATH',$protocol.$domainName);
             define('ADMINSITEPATH',$protocol.$domainName.'admin'.'/');
 }
+

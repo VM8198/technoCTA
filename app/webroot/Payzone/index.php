@@ -37,13 +37,15 @@ class DEMO_DATA
   const STATE           = 'Cornwall';
   const POSTCODE        = 'TR14 8PA';
   const COUNTRY         = 'United Kingdom';
-  static function ORDERID()
+  const AMOUNT           = '200'; 
+ static function ORDERID()
   {
     return time();
   }
   static function AMOUNT()
   {
     return $_GET['amount'];
+    
   }
   static function ORDERDESC()
   {
@@ -113,8 +115,8 @@ class DEMO_DATA
       <form  id='withDataForm' name='withDataForm' target="_self" action="<?php echo $PayzoneGateway->getURL('cart-page'); ?>" method="POST" class=''>
         <p>To view the sample payment flow, prepopulated with post data (from this form) click on the below button, this will simulate the infomration being populated from your customer records.</p>
         <div class='payzone-form-section collapsed'>
-          <label for='FullAmount'>FullAmount</label>
-          <input type="text" name="FullAmount" value="<?php echo(DEMO_DATA::AMOUNT()); ?>" />
+         // <label for='FullAmount'>FullAmount</label>
+         // <input type="text" name="FullAmount" value="200" />
           <label for='OrderId'>OrderID</label>
           <input type="text" name="OrderID" value="<?php echo (DEMO_DATA::ORDERID());?>" />
           <label for='TransactionDateTime'>TransactionDateTime</label>

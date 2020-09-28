@@ -93,7 +93,7 @@ $counter = ($page * 10) - 10 + 1;
                                 foreach($bookinglist as $result) { ?>
                               
                                 <tr>
-									<td><?php echo date('d-m-Y',strtotime($result['TransactionLog']['transaction_datetime_txt']));?></td>
+									<td><?php echo $result['TransactionLog']['transaction_datetime_txt'];?></td>
 									<td><?php echo $result['TransactionLog']['order_id'];?></td>
 									<td><?php if($result['TransactionLog']['status']=="Declined"){echo "Pending"; }else{ echo $result['TransactionLog']['status'];}?></td>
 

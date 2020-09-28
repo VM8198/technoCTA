@@ -78,14 +78,16 @@ class BookingsController extends AppController{
 		}
 		if (!empty($filterval)) {
 
-            $conditions[] = $result;
-            $conditions[] = array('TransactionLog.transaction_datetime <' => $end, 'TransactionLog.transaction_datetime >=' => $start);  
+            $conditions = $result;
+            //$conditions = array('TransactionLog.transaction_datetime <' => $end, 'TransactionLog.transaction_datetime >=' => $start);  
         } else {
 		$conditions[] = array('TransactionLog.status !=' =>'AuthCode: 376297');
 		$conditions[] = array('TransactionLog.transaction_datetime <' => $end, 'TransactionLog.transaction_datetime >=' => $start);  
         }
+
 		//pr($result); die;
-	//pr($conditions);die();
+	unset($conditions['url']);
+	//pr($conditions);
 		$order = array('TransactionLog.id'=> 'DESC');
 		$this->paginate = array(
 			'conditions' => $conditions,
@@ -97,7 +99,7 @@ class BookingsController extends AppController{
 
 		
 		$bookinglist =  $this->paginate('TransactionLog');
-		//pr($bookinglist);
+	//	pr($bookinglist);die();
 		$locationNameArr = array(); 
 		foreach ($bookinglist as $bookinglistV) {
 			$locID = $bookinglistV['Course']['location_id'];
@@ -229,7 +231,7 @@ pr($start);
 		// pr($pArray);
 
 		$bookinglist =  $this->paginate('TransactionLog');
-		// pr($bookinglist);
+		// pr($bookinglist);die;
 		// date(format)ie;
 	$locationNameArr = array(); 
 		foreach ($bookinglist as $bookinglistV) {

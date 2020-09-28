@@ -209,7 +209,7 @@ class CoursesController extends AppController{
 				$result['Course.archive'] = 0;
             }else{
 
-			$result['Course.sector_id'] = $val;
+//			$result['Course.sector_id'] = $val;
 			$result['Course.archive'] = 0;
 
 			}

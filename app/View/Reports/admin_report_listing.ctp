@@ -373,7 +373,7 @@ $counter = ($page * 10) - 10 + 1;
       if($utype == 'Company'){?>
         <td><?php echo $result['User']['company'];?></td>
          <?php } ?>
-   <td><?php echo date('d-m-Y', strtotime($result['TransactionLog']['transaction_datetime_txt']));?></td>
+   <td><?php echo $result['TransactionLog']['transaction_datetime_txt']; ?></td>
    <td><?php echo $result['Course']['course_name']; ?></td>
    <td><?php if($result['Course']['location_id']="1"){ echo "London"; } ?></td>
    <td><?php if($result['TransactionLog']['status']=="Declined"){echo "Pending"; }else{ echo $result['TransactionLog']['status'];}?></td>

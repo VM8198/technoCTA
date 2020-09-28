@@ -48,16 +48,16 @@ class EmailConfig {
 
 	public $smtp = array(
 		'transport' => 'Smtp',
-		'from' => array('site@localhost' => 'My Site'),
-		'host' => 'localhost',
+		'from' => array('raoinfotechp@gmail.com' => 'Techno CTA'),
+		'host' => 'ssl://smtp.gmail.com',
 		'port' => 25,
 		'timeout' => 30,
-		'username' => 'user',
-		'password' => 'secret',
+		'username' => 'raoinfotechp@gmail.com',
+		'password' => 'raoinfotech@123',
 		'client' => null,
-		'log' => false,
-		//'charset' => 'utf-8',
-		//'headerCharset' => 'utf-8',
+		'log' => true,
+		'charset' => 'utf-8',
+		'headerCharset' => 'utf-8',
 	);
 
 	public $fast = array(
