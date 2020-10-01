@@ -79,11 +79,8 @@
          },
          type: "POST",
          success: function(e) {
-			 if(e == 2)
-                $('#sbutton').hide();
             alert("Thanks for the booking' 'Confirmation and Payment details will be emailed to you as soon as possible");
-
-			// $('#mailmsg').html("Thanks for the booking' 'Confirmation and Payment details will be emailed to you as soon as possible");
+            window.location.href = 'https://technocta.mylionsgroup.com/homes';
          }
      })
 	}, 1000);

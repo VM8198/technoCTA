@@ -31,7 +31,7 @@ require_once(__DIR__ . "/includes/payzone_gateway.php");
     //print_r($_POST["StatusCode"] ); die;
     if($_POST["StatusCode"]==0){
      ?>
-     <meta http-equiv = "refresh" content = "5; url = https://demo.sdssoftltd.co.uk/techno/homes/confirm_mail/<?php echo $_POST['OrderID'] ?>" />
+     <meta http-equiv = "refresh" content = "5; url = https://technocta.mylionsgroup.com/homes/confirm_mail/<?php echo $_POST['OrderID'] ?>" />
      <!-- <a href="https://techno.sdssoftltd.co.uk/homes/confirm_mail" id="myCheck" class="alink">eer</a>
      <script type="text/javascript">
       document.getElementById("myCheck").click();

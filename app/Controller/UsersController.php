@@ -392,6 +392,7 @@ class UsersController extends AppController {
 			$this->request->data['User']['phone'] = $this->request->data['User']['phone'];
 			$this->request->data['User']['user_type'] = 'Company';
 			$this->request->data['User']['password'] = $this->Auth->password($this->request->data['User']['password']);
+			$this->request->data['User']['random_str'] = $forgotRandStr;
 			
 			if ($this->User->save($this->data)) {
                 $id = $this->User->getLastInsertID();
@@ -407,44 +408,35 @@ class UsersController extends AppController {
 				$message .= "<a href=" . SITEPATH . "users/verify/" . $forgotRandStr . "/" . ">Click Here</a><br/><br/>";
 				$message .= "<br/>Thanks & Regards, <br/>Techno CTA Team";
 				
-				App::import('Vendor', 'phpmailer', array(
-				'file' => 'phpmailer/class.phpmailer.php'));
+				// App::import('Vendor', 'phpmailer', array(
+				// 'file' => 'phpmailer/class.phpmailer.php'));
+				require_once('/var/www/html/app/Vendor/phpmailer/PHPMailerAutoload.php');
 				$message = $message;
 				//$to = 'keshav.rawat7@hotmail.com';
 				$to = 'booking@technocta.co.uk';
 				$mail = new PHPMailer();
+				$mail->isSMTP();
+				$mail->SMTPDebug = false;
+				$mail->Debugoutput = 'html';
+				$mail->Host = 'email-smtp.eu-west-2.amazonaws.com';
+				$mail->Port = 587;
+				$mail->SMTPSecure = 'tls';
+				$mail->SMTPAuth = true;
+				$mail->Username = 'AKIA2TS4ZTDBJULL4G52';
+				$mail->Password = 'BC+JNsqFj0gLl0gDAQz20nWUvozMuHRMlHcG9eTO7Aqa';
 				$mail->IsHTML(true);
-				$mail->SetFrom($to, 'Techno CTA');
-				$mail->AddReplyTo($to, "Techno CTA");
+				$mail->setFrom($to, 'Techno CTA');
+				$mail->addReplyTo($to, "Techno CTA");
 				$mail->Subject = $subject; 
 				$mail->Body = $message;
-				$mail->AddAddress(trim($email));
+				$mail->addAddress(trim($email));
 				
 				if (!$mail->Send()) {
-					echo $mail->ErrorInfo;
-					$datafor['User']['random_str'] = $forgotRandStr;
-					$this->User->id = $id;
-					//pr($id); die;
-					if ($this->User->save($datafor)) {
-						$id = $this->User->getLastInsertID();
-						 $this->Session->setFlash("Thank you for registration. Please check your email to activate your account. If you do not find the mail in inbox then please check in spam folder.", 'default', array(), 'form1');
-						$this->redirect(array('controller' => 'homes', 'action' => 'index'));
-					}else {
-						  $this->Session->setFlash("Some thing went wrong.", 'default', array(), 'form1');
-                        $this->redirect(array('controller' => 'homes', 'action' => 'index'));
-					}
+					$this->Session->setFlash("Some thing went wrong.", 'default', array(), 'form1');
+					 $this->redirect(array('controller' => 'homes', 'action' => 'index'));
 				} else {
-					$resultnew = "1";
-                    $datafor['User']['random_str'] = $forgotRandStr;
-                    $this->User->id = $id;
-					//pr($id); die;
-                    if ($this->User->save($datafor)) {
-                         $this->Session->setFlash("Thank you for registration. Please check your email to activate your account. If you do not find the mail in inbox then please check in spam folder.", 'default', array(), 'form1');
-                        $this->redirect(array('controller' => 'homes', 'action' => 'index'));
-                    } else {
-                        $this->Session->setFlash("Some thing went wrong.", 'default', array(), 'form1');
-                        $this->redirect(array('controller' => 'homes', 'action' => 'index'));
-                    }
+					$this->Session->setFlash("<script>alert('Thank you for registration. Please check your email to activate your account. If you do not find the mail in inbox then please check in spam folder.');</script>");
+					$this->redirect(array('controller' => 'homes', 'action' => 'index'));
 				}
 			}
 		}	
@@ -463,41 +455,11 @@ class UsersController extends AppController {
 			$this->request->data['User']['phone'] = $this->request->data['User']['phone'];
 			$this->request->data['User']['user_type'] = 'User';
 			$this->request->data['User']['password'] = $this->Auth->password($this->request->data['User']['password']);
-			
+			$this->request->data['User']['random_str'] = $forgotRandStr;
+
 			if ($this->User->save($this->data)) {
 				require_once('/var/www/html/app/Vendor/phpmailer/PHPMailerAutoload.php');
 
-				// $mail = new PHPMailer;
-
-				// $mail->isSMTP();
-				// $mail->SMTPDebug = false;
-				// $mail->Debugoutput = 'html';
-				// $mail->Host = 'smtp.gmail.com';
-				// $mail->Port = 587;
-				// $mail->SMTPSecure = 'tls';
-				// $mail->SMTPAuth = true;
-
-				// $mail->Username = 'raoinfotechp@gmail.com';
-				// $mail->Password = 'raoinfotech@123';
-				// $mail->setFrom('raoinfotechp@gmail.com', 'From Name (freeform string)');
-				// $mail->addAddress('malvivivek8198@gmail.com'); //call this multiple times for multiple recipients
-				// $mail->Subject = 'Subject';
-				// $mail->msgHTML('<h3>Hello World</h3>');
-				// $mail->AltBody = 'alternative body if html fails to load';
-				// //$mail->addAttachment('/path/to/file/); //OPTIONAL attachment
-
-				// if (!$mail->send()) {
-				//     echo "Mailer Error: ";
-				//     echo $mail->ErrorInfo;
-				// } else {
-				//     echo "Email sent";
-				//     $this->Session->setFlash("Thank you for registration. Please check your email to activate your account. If you do not find the mail in inbox then please check in spam folder.", 'default', array(), 'form1');
-    //                    $this->Session->setFlash("<script>alert('Thank you for registration. Please check your email to activate your account. If you do not find the mail in inbox then please check in spam folder.');</script>");
-    //                     $this->redirect(array('controller' => 'homes', 'action' => 'index'));
-				// }
-
-   //              $id = $this->User->getLastInsertID();
-			// 	//pr($id); die;
 				$name = $this->request->data['User']['first_name'];
 				$email = $this->request->data['User']['email_id'];
 				$subject = "Techno CTA Registration Mail";
@@ -509,74 +471,30 @@ class UsersController extends AppController {
 				$message .= "<br/>Thanks & Regards, <br/>Techno CTA Team";
 			
 					
-			// 	// App::import('Vendor', 'phpmailer', array(
-			// 	// 'file' => 'phpmailer/class.phpmailer.php'));
-			// 	require_once('/var/www/html/app/Vendor/phpmailer/PHPMailerAutoload.php');
-
-			// 	$message = $message;
-			// 	$to = 'malvivivek8198@gmail.com';
-			// 	// $to = 'keshav.rawat7@hotmail.com';
-			// 	//	$to = 'booking@technocta.co.uk';
-				
-			// 	$mail = new PHPMailer();
-			// 	$mail->isHTML(true);
-			// 	$mail->isSMTP();
-			// 	$mail->Host = 'smtp.gmail.com';
-			// 	$mail->Port = 587;
-			// 	$mail->SMTPSecure = 'tls';
-			// 	$mail->SMTPAuth = true;
-			// 	$mail->setFrom('raoinfotechp@gmail.com', 'Techno CTA');
-			// //	$mail->AddReplyTo($to, "Techno CTA");
-			// 	$mail->Subject = $subject;
-			// 	$mail->Body = $message;
-			// 	$mail->addAddress('malvivivek8198@gmail.com');
-			// 	$mail->Send();
-
-				$mail = new PHPMailer;
-
+				$to = 'booking@technocta.co.uk';
+				$mail = new PHPMailer();
 				$mail->isSMTP();
 				$mail->SMTPDebug = false;
 				$mail->Debugoutput = 'html';
-				$mail->Host = 'smtp.gmail.com';
+				$mail->Host = 'email-smtp.eu-west-2.amazonaws.com';
 				$mail->Port = 587;
 				$mail->SMTPSecure = 'tls';
 				$mail->SMTPAuth = true;
-
-				$mail->Username = 'raoinfotechp@gmail.com';
-				$mail->Password = 'raoinfotech@123';
-				$mail->setFrom('raoinfotechp@gmail.com', 'Techno CTA');
-				$mail->addAddress(trim($email)); //call this multiple times for multiple recipients
-				$mail->Subject = $subject;
-				$mail->msgHTML($message);
-				$mail->AltBody = 'alternative body if html fails to load';
+				$mail->Username = 'AKIA2TS4ZTDBJULL4G52';
+				$mail->Password = 'BC+JNsqFj0gLl0gDAQz20nWUvozMuHRMlHcG9eTO7Aqa';
+				$mail->IsHTML(true);
+				$mail->setFrom($to, 'Techno CTA');
+				$mail->addReplyTo($to, "Techno CTA");
+				$mail->Subject = $subject; 
+				$mail->Body = $message;
+				$mail->addAddress(trim($email));
 
 				if (!$mail->Send()) {
-					echo $mail->ErrorInfo;
-					$datafor['User']['random_str'] = $forgotRandStr;
-					// $this->User->id = $id;
-					//pr($mail->ErrorInfo); die;
-					// if ($this->User->save($datafor)) {
-					// 	$id = $this->User->getLastInsertID();
-					// 	 $this->Session->setFlash("Thank you for registration. Please check your email to activate your account. If you do not find the mail in inbox then please check in spam folder.", 'default', array(), 'form1');
-					// 	$this->redirect(array('controller' => 'homes', 'action' => 'index'));
-					// }else {
-						$this->Session->setFlash("Some thing went wrong.", 'default', array(), 'form1');
-                        $this->redirect(array('controller' => 'homes', 'action' => 'index'));
-					// }
+					$this->Session->setFlash("Some thing went wrong.", 'default', array(), 'form1');
+					 $this->redirect(array('controller' => 'homes', 'action' => 'index'));
 				} else {
-					$resultnew = "1";
-                    $datafor['User']['random_str'] = $forgotRandStr;
-                    $this->User->id = $id;
-					//pr($id); die;
-                    if ($this->User->save($datafor)) {
-                    	 $this->Session->setFlash("Thank you for registration. Please check your email to activate your account. If you do not find the mail in inbox then please check in spam folder.", 'default', array(), 'form1');
-                       // $this->Session->setFlash("<script>alert('Thank you for registration. Please check your email to activate your account. If you do not find the mail in inbox then please check in spam folder.');</script>");
-                        $this->redirect(array('controller' => 'homes', 'action' => 'index'));
-                    } else {
-                    	 $this->Session->setFlash("Some thing went wrong.", 'default', array(), 'form1');
-                        //$this->Session->setFlash("<script>alert('Some thing went wrong.');</script>");
-                        $this->redirect(array('controller' => 'homes', 'action' => 'index'));
-                    }
+					$this->Session->setFlash("<script>alert('Thank you for registration. Please check your email to activate your account. If you do not find the mail in inbox then please check in spam folder.');</script>");
+					$this->redirect(array('controller' => 'homes', 'action' => 'index'));
 				}
 			}
 		}
@@ -689,8 +607,9 @@ class UsersController extends AppController {
 		 $forgotRandStr = $this->getrandomstr();
 		$from = $email;
 		$subject = "Password Request";
-		App::import('Vendor', 'phpmailer', array(
-			'file' => 'phpmailer/class.phpmailer.php'));
+		// App::import('Vendor', 'phpmailer', array(
+		// 	'file' => 'phpmailer/class.phpmailer.php'));
+		require_once('/var/www/html/app/Vendor/phpmailer/PHPMailerAutoload.php');
 		$message = "<p>Dear '" . $Name . "',
 				 </p>
 				 <p>Please<a href=" . SITEPATH . "users/setForgotPassword" . "/" . $forgotRandStr . "> Click Here</a> to Change your Password  </p>
@@ -698,14 +617,23 @@ class UsersController extends AppController {
 				 <p>Regards,  </p>
 				 <p>Techno CTA Team</p>";
 		//$to = 'geeteshwari.sds@gmail.com';
-		$to = 'booking@technocta.co.uk';			 
+		$to = 'booking@technocta.co.uk';
 		$mail = new PHPMailer();
+		$mail->isSMTP();
+		$mail->SMTPDebug = false;
+		$mail->Debugoutput = 'html';
+		$mail->Host = 'email-smtp.eu-west-2.amazonaws.com';
+		$mail->Port = 587;
+		$mail->SMTPSecure = 'tls';
+		$mail->SMTPAuth = true;
+		$mail->Username = 'AKIA2TS4ZTDBJULL4G52';
+		$mail->Password = 'BC+JNsqFj0gLl0gDAQz20nWUvozMuHRMlHcG9eTO7Aqa';
 		$mail->IsHTML(true);
-		$mail->SetFrom($to, 'Techno CTA Team');
-		$mail->AddReplyTo($to, "Techno CTA Team");
-		$mail->Subject = $subject;
+		$mail->setFrom($to, 'Techno CTA');
+		$mail->addReplyTo($to, "Techno CTA");
+		$mail->Subject = $subject; 
 		$mail->Body = $message;
-		$mail->AddAddress(trim($email));
+		$mail->addAddress(trim($email));
 		if (!$mail->Send()) {
 			echo $mail->ErrorInfo;
 		} else {
@@ -1053,7 +981,8 @@ class UsersController extends AppController {
 		$id = $this->data['id'];
 		// $id= 334;
 		//echo $id; die; 
-		$book =$this->Bookinglog->find('first',array('conditions'=>array('Bookinglog.id'=>$id),'order' =>array('Bookinglog.id'=>'DESC')));
+		$book =$this->Bookinglog->find('first',array('conditions'=>array('Bookinglog.id'=>$id)));
+		print_r($book); 
 		$userid = $book['Bookinglog']['user_id'];
 		$course_id = $book['Bookinglog']['course_id'];
 		$sp_name=$book['Bookinglog']['sponsor_name'];
@@ -1073,7 +1002,7 @@ class UsersController extends AppController {
 		$data['userid'] = $userid;
 		$data['bookinglogid'] = $id;
 		$data['courseid'] = $course_id;
-
+		$amount = $book['Bookinglog']['price_inc_vat'];
 
 		$this->Coursedetail->save($data);
 
@@ -1147,7 +1076,6 @@ $html .='
 			</tr>          
 			</table>
 		</body></html>';
-		//pr($html); die;
         $dompdf = new DOMPDF();
         $papersize = 'legal';
         $orientation = 'landscape';
@@ -1156,8 +1084,9 @@ $html .='
         $dompdf->render();
         echo $dompdf->output();
         $output = $dompdf->output();
-        file_put_contents('coursedetails.pdf', $output);
 
+        file_put_contents('coursedetails.pdf', $output);
+        // var_dump(file_put_contents('coursedetails.pdf', $output));
         // adminCourse detail
 
          $html1 =
@@ -1230,7 +1159,7 @@ $html1 .='<table style="width:700px; height: auto; padding: 20px;font-size: 14px
         $output = $dompdf1->output();
         file_put_contents('admin_coursedetails.pdf', $output);
 
-
+        $payzoneURL = "<p>For payment  <a href = `https://technocta.mylionsgroup.com/Payzone?amount=".$amount."&user=".$username."&id=".$course_id."&userId=".$userid."`>Click here </a></p>";
         //echo $pdf; die;
 		$from ="booking@technocta.co.uk";
             $subject = $sponsor_name[0]."- COURSE DETAILS -".$course . " " .
@@ -1258,25 +1187,35 @@ $html1 .='<table style="width:700px; height: auto; padding: 20px;font-size: 14px
 				 <p>Thanks & Regards,  </p>
 				 <p>Techno CTA Team</p>";
 
-				 $message = "<p>Hello ".$username.",
-				 </p>
-				 <p>Thank you for booking with Techno CTA, Booking details are attached to this email.</p>
-				 
+				 $link = "https://technocta.mylionsgroup.com/Payzone?amount=".$amount."&user=".$username."&id=".$course_id."&userId=".$userid;
+				 $message = '<p>Hello '.$username.',</p>
+				 <p>Thank you for booking with Techno CTA, Booking details are attached to this email.</p><br/>
+				 <p>For payment <a href = "'.$link.'"> Click here </a></p>
 				 <p>For any further assistance or queries you can contact Techno CTA on call  0207 055 0877  </p>
 				 <p>Thanks & Regards,  </p>
-				 <p>Techno CTA Team</p>";
+				 <p>Techno CTA Team</p>';
 
             $to = $useremail;
-            // $to = "deepika11.sds@gmail.com";
-           
-            $mail = new PHPMailer();
-            $mail->IsHTML(true);
-            $mail->SetFrom($from, 'Techno CTA Team');
-            $mail->AddReplyTo($from, "Techno CTA Team");
-            $mail->Subject = $subject;
-            $mail->Body = $message;
-            $mail->AddAddress(trim($to));
-            $mail->addAttachment('coursedetails.pdf');
+            var_dump($message);
+            require_once('/var/www/html/app/Vendor/phpmailer/PHPMailerAutoload.php');
+
+			$mail = new PHPMailer();
+			$mail->isSMTP();
+			$mail->SMTPDebug = false;
+			$mail->Debugoutput = 'html';
+			$mail->Host = 'email-smtp.eu-west-2.amazonaws.com';
+			$mail->Port = 587;
+			$mail->SMTPSecure = 'tls';
+			$mail->SMTPAuth = true;
+			$mail->Username = 'AKIA2TS4ZTDBJULL4G52';
+			$mail->Password = 'BC+JNsqFj0gLl0gDAQz20nWUvozMuHRMlHcG9eTO7Aqa';
+			$mail->IsHTML(true);
+			$mail->setFrom($from, 'Techno CTA');
+			$mail->addReplyTo($from, "Techno CTA");
+			$mail->Subject = $subject; 
+			$mail->Body = $message;
+			$mail->addAddress(trim($to));
+			$mail->addAttachment('coursedetails.pdf');
 			// $mail->addAttachment('TermsAndConditions.pdf');
 			// $mail->addAttachment($pdf);
             // $Adminemail1='booking@technocta.co.uk , priyagarg.sds@gmail.com, ak07389@gmail.com';
@@ -1288,29 +1227,44 @@ $html1 .='<table style="width:700px; height: auto; padding: 20px;font-size: 14px
 			// $Adminemail1 ='deepika11.sds@gmail.com';
 			$Adminemail1 ='booking@technocta.co.uk';
 			$AdminMail = new PHPMailer();
-            $AdminMail->IsHTML(true);
-            $AdminMail->SetFrom($from, 'Techno CTA Team');
-            $AdminMail->AddReplyTo($from, "Techno CTA Team");
-            $AdminMail->Subject = $subject;
-            $AdminMail->Body = $AdminMessage;
-            $AdminMail->AddAddress(trim($Adminemail1));
-     		$AdminMail->addAttachment('admin_coursedetails.pdf');
+			$AdminMail->isSMTP();
+			$AdminMail->SMTPDebug = false;
+			$AdminMail->Debugoutput = 'html';
+			$AdminMail->Host = 'email-smtp.eu-west-2.amazonaws.com';
+			$AdminMail->Port = 587;
+			$AdminMail->SMTPSecure = 'tls';
+			$AdminMail->SMTPAuth = true;
+			$AdminMail->Username = 'AKIA2TS4ZTDBJULL4G52';
+			$AdminMail->Password = 'BC+JNsqFj0gLl0gDAQz20nWUvozMuHRMlHcG9eTO7Aqa';
+			$AdminMail->IsHTML(true);
+			$AdminMail->setFrom($from, 'Techno CTA');
+			$AdminMail->addReplyTo($from, "Techno CTA");
+			$AdminMail->Subject = $subject; 
+			$AdminMail->Body = $AdminMessage;
+			$AdminMail->addAddress(trim($Adminemail1));
+			$AdminMail->addAttachment('coursedetails.pdf');
 			// $AdminMail->addAttachment('TermsAndConditions.pdf');
 			// $AdminMail->addAttachment($pdf);
 
 			$Companymail1 = $email;
-			// $Companymail1 = "deepikasharma1890@gmail.com";
 			$Companymail = new PHPMailer();
-            $Companymail->IsHTML(true);
-            $Companymail->SetFrom($from, 'Techno CTA Team');
-            $Companymail->AddReplyTo($from, "Techno CTA Team");
-            $Companymail->Subject = $subject;
-            $Companymail->Body = $CompanyMessage;
-            $Companymail->AddAddress(trim($Companymail1));
-     		$Companymail->addAttachment('coursedetails.pdf');
-			// $Companymail->addAttachment('TermsAndConditions.pdf');
-			// $Companymail->addAttachment($pdf);
-
+			$Companymail->isSMTP();
+			$Companymail->SMTPDebug = false;
+			$Companymail->Debugoutput = 'html';
+			$Companymail->Host = 'email-smtp.eu-west-2.amazonaws.com';
+			$Companymail->Port = 587;
+			$Companymail->SMTPSecure = 'tls';
+			$Companymail->SMTPAuth = true;
+			$Companymail->Username = 'AKIA2TS4ZTDBJULL4G52';
+			$Companymail->Password = 'BC+JNsqFj0gLl0gDAQz20nWUvozMuHRMlHcG9eTO7Aqa';
+			$Companymail->IsHTML(true);
+			$Companymail->setFrom($from, 'Techno CTA');
+			$Companymail->addReplyTo($from, "Techno CTA");
+			$Companymail->Subject = $subject; 
+			$Companymail->Body = $CompanyMessage;
+			$Companymail->addAddress(trim($Companymail1));
+			$Companymail->addAttachment('coursedetails.pdf');
+			
             if (!$mail->Send()) {
                 echo $mail->ErrorInfo;
 				echo 1;
@@ -1323,6 +1277,7 @@ $html1 .='<table style="width:700px; height: auto; padding: 20px;font-size: 14px
                 $resultnew = "1";
 				echo 2;
             }
+            
 	}
 }
 	?>	

@@ -59,9 +59,9 @@ class DBDemo
   // const database = "technosd_technonew";
 
   const hostname = "localhost";
-  const username = "demosdss_techno";
-  const password = '^=w$VJC#%R9=';
-  const database = "demosdss_techno";
+  const username = "root";
+  const password = 'Raoinfotech@09';
+  const database = "singhran_techno";
 
  
   //set a default response incase of error

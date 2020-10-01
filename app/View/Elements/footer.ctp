@@ -977,14 +977,13 @@
                            <div class="row">
                               <div class="col-lg-3">
                                  <label class="form-text">Sponsor Name</label>
-                                 <input class="contactmodal" placeholder="Sponsor Name" id="sponsername<?php echo $value['Course']['id'];?>" onkeyup="getsponserlist(<?php echo $value['Course']['id'];?>)"  type="text"  name="data[User][sponsor_company][]" autofocus="off" autocomplete="off">
+                                 <input class="contactmodal" placeholder="Sponsor Name" id="sponsername<?php echo $value['Course']['id'];?>" type="text"  name="data[User][sponsor_company][]">
                                
                                     <div id="listsponsor<?php echo $value['Course']['id'];?>" class="suggest"></div>
                                     <div class="suggestother" id="Others<?php echo $value['Course']['id'];?>">
                                       <li id="Other<?php echo $value['Course']['id'];?>" onclick="showothr(<?php echo $value['Course']['id'];?>)">Other</li>
 									         </div>
                                     <input class="contactmodal" placeholder="Type here" id="showther<?php echo $value['Course']['id'];?>"  type="text"  name="data[User][sponsor_company][]" autofocus="off" autocomplete="off" style="display:none;">
-                                    <i class="fa fa-chevron-down right-arrow"></i>
                               </div>
                               <div class="col-lg-3">
                                  <label class="form-text">Sponsor Contact Name</label>
